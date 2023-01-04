@@ -13,6 +13,7 @@ export interface UpcomingMovie {
 	video: string;
 	vote_average: number;
 	vote_count: number;
+	genres: string[];
 }
 
 export interface Movie {

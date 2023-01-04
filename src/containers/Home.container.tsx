@@ -15,6 +15,8 @@ const HomeContainer = (): ReactElement => {
 
 		// https://api.themoviedb.org/3/movie/popular?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US&page=1
 
+		// https://api.themoviedb.org/3/genre/movie/list?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US
+
 		try {
 			const response = await axios.get(
 				`https://api.themoviedb.org/3/movie/${type}?api_key=${

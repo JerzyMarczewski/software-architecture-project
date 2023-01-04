@@ -1,0 +1,52 @@
+.container {
+	width: 100%;
+}
+
+.header h1 {
+	color: var(--font-color);
+}
+
+.cards {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+
+.card {
+	position: relative;
+	color: var(--font-color);
+}
+
+.card-img {
+	width: 100%;
+	border-radius: var(--rounded);
+	overflow: hidden;
+}
+
+.card-body {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 5;
+	background-color: #131313;
+	padding-top: 1rem;
+}
+
+@media (min-width: 768px) {
+	.cards {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (min-width: 1280px) {
+	.cards {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (min-width: 1920px) {
+	.cards {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
