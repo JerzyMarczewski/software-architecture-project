@@ -13,10 +13,7 @@
 		"axios": "^1.2.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-<<<<<<< HEAD
 		"react-router": "^6.6.1",
-=======
->>>>>>> 23c372d9834863a36fe9c9c1e9b90422a19abffb
 		"react-router-dom": "^6.6.1"
 	},
 	"devDependencies": {
