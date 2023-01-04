@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 
-const ActorPage = (): ReactElement => {
+const ActorView = (): ReactElement => {
 	return <div>ActorPage</div>;
 };
 
-export default ActorPage;
+export default ActorView;
