@@ -12,6 +12,7 @@
 	--background-color: #000;
 	--font-color: #fff;
 	--rounded: 0.5rem;
+	--secondary-color: #47e10c;
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -24,4 +25,7 @@ body {
 	min-height: 100vh;
 	background-color: var(--background-color);
 	color: var(--font-color);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }

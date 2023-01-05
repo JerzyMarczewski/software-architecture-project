@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from "react";
 import HomeView from "../views/Home.view";
 import axios from "axios";
 import { UpcomingMovie } from "../helpers/types";
@@ -7,6 +7,8 @@ const HomeContainer = (): ReactElement => {
 	const [upcomingMovies, setUpcomingMovies] = useState<UpcomingMovie[]>([]);
 	const [popularMovies, setPopularMovies] = useState<UpcomingMovie[]>([]);
 	const [topRatedMovies, setTopRatedMovies] = useState<UpcomingMovie[]>([]);
+	const [searchMovies, setSearchMovies] = useState<UpcomingMovie[]>([]);
+	const [enteredText, setEnteredText] = useState("");
 
 	const getUpcomingMovies = async (type: "top_rated" | "popular" | "upcoming"): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
@@ -44,6 +46,39 @@ const HomeContainer = (): ReactElement => {
 		}
 	};
 
+	const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+		event.preventDefault();
+		const { VITE_API_KEY } = import.meta.env;
+
+		if (enteredText.length === 0) {
+			setSearchMovies([]);
+			return;
+		}
+
+		try {
+			const response = await axios.get(
+				`https://api.themoviedb.org/3/search/movie?api_key=${
+					VITE_API_KEY as string
+				}&language=en-US&page=1&query=${enteredText}`,
+			);
+
+			if (response.status !== 200) {
+				throw new Error("Something went wrong!");
+			}
+
+			setSearchMovies(response.data.results);
+			// console.log(response);
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message);
+			}
+		}
+	};
+
+	const onEnteredText = (event: ChangeEvent<HTMLInputElement>): void => {
+		setEnteredText((event.target as HTMLInputElement).value);
+	};
+
 	useEffect(() => {
 		void (async () => {
 			await getUpcomingMovies("popular");
@@ -57,6 +92,10 @@ const HomeContainer = (): ReactElement => {
 			upcomingMovies={upcomingMovies}
 			popularMovies={popularMovies}
 			topRatedMovies={topRatedMovies}
+			onEnteredText={onEnteredText}
+			searchedMovies={searchMovies}
+			// eslint-disable-next-line @typescript-eslint/no-misused-promises
+			onSubmit={onSubmit}
 		/>
 	);
 };
