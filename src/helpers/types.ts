@@ -118,3 +118,5 @@ export interface SimilarMovies {
 	total_pages: number;
 	total_results: number;
 }
+
+export type Section = "top_rated" | "popular" | "upcoming";

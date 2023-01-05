@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, ReactElement } from "react";
-import { UpcomingMovie } from "../helpers/types";
+import { Section, UpcomingMovie } from "../helpers/types";
 import styles from "./home.module.css";
-import { Link } from "react-router-dom";
+import CardView from "./Card.view";
 
 export const MOVIE_DB_IMAGE_URL = {
 	small: "https://image.tmdb.org/t/p/w185",
@@ -16,14 +16,18 @@ const HomeView: React.FC<{
 	topRatedMovies: UpcomingMovie[];
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 	onEnteredText: (event: ChangeEvent<HTMLInputElement>) => void;
+	onChangeSection: (section: Section) => void;
 	searchedMovies: UpcomingMovie[];
+	section: Section;
 }> = ({
 	upcomingMovies,
 	popularMovies,
 	topRatedMovies,
+	searchedMovies,
+	section,
 	onSubmit,
 	onEnteredText,
-	searchedMovies,
+	onChangeSection,
 }): ReactElement => {
 	if (upcomingMovies.length === 0 || popularMovies.length === 0 || topRatedMovies.length === 0) {
 		return <div>Loading...</div>;
@@ -40,49 +44,79 @@ const HomeView: React.FC<{
 				<div className={styles.backdrop}></div>
 			</header>
 			<form onSubmit={onSubmit} className={styles.form}>
-				<input type="text" onChange={onEnteredText} className={styles.input} />
+				<input
+					type="text"
+					onChange={onEnteredText}
+					placeholder="Search..."
+					className={styles.input}
+				/>
 				<button type="submit" className={styles.button}>
 					Search
 				</button>
 			</form>
+			<div className={styles["button-container"]}>
+				<button
+					type="button"
+					onClick={() => {
+						onChangeSection("upcoming");
+					}}
+				>
+					Upcoming
+				</button>
+				<button
+					type="button"
+					onClick={() => {
+						onChangeSection("popular");
+					}}
+				>
+					Popular
+				</button>
+				<button
+					type="button"
+					onClick={() => {
+						onChangeSection("top_rated");
+					}}
+				>
+					Top rated
+				</button>
+			</div>
 			<div className={styles.main}>
-				{searchedMovies.length === 0 ? (
+				{searchedMovies.length !== 0 && (
+					<section>
+						<h2 className={styles["section-header"]}>Upcoming movies</h2>
+						<div className={styles.cards}>
+							{searchedMovies.map((movie) => (
+								<CardView movie={movie} key={movie.id} />
+							))}
+						</div>
+					</section>
+				)}
+				{section === "upcoming" && searchedMovies.length === 0 && (
 					<section>
 						<h2 className={styles["section-header"]}>Upcoming movies</h2>
 						<div className={styles.cards}>
 							{upcomingMovies.map((movie) => (
-								<Link to={`/movies/${movie.id}`} key={movie.id}>
-									<div className={styles.card}>
-										<img
-											className={styles["card-img"]}
-											src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-										/>
-										<div className={styles["card-body"]}>
-											<div>{movie.release_date.slice(0, 4)}</div>
-											<h3>{movie.title}</h3>
-										</div>
-									</div>
-								</Link>
+								<CardView movie={movie} key={movie.id} />
 							))}
 						</div>
 					</section>
-				) : (
+				)}
+				{section === "popular" && searchedMovies.length === 0 && (
 					<section>
-						<h2 className={styles["section-header"]}>Search movies</h2>
+						<h2 className={styles["section-header"]}>Popular movies</h2>
 						<div className={styles.cards}>
-							{searchedMovies.map((movie) => (
-								<Link to={`/movies/${movie.id}`} key={movie.id}>
-									<div className={styles.card}>
-										<img
-											className={styles["card-img"]}
-											src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-										/>
-										<div className={styles["card-body"]}>
-											<div>{movie.release_date.slice(0, 4)}</div>
-											<h3>{movie.title}</h3>
-										</div>
-									</div>
-								</Link>
+							{popularMovies.map((movie) => (
+								<CardView movie={movie} key={movie.id} />
+							))}
+						</div>
+					</section>
+				)}
+				{section === "top_rated" && searchedMovies.length === 0 && (
+					<section>
+						<h2 className={styles["section-header"]}>Top rated movies</h2>
+						<div className={styles.cards}>
+							{topRatedMovies.map((movie) => (
+								<CardView movie={movie} key={movie.id} />
 							))}
 						</div>
 					</section>

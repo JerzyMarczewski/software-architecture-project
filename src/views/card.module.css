@@ -1,0 +1,20 @@
+.card {
+	position: relative;
+	color: var(--font-color);
+}
+
+.card-img {
+	width: 100%;
+	border-radius: var(--rounded);
+	overflow: hidden;
+}
+
+.card-body {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 5;
+	background-color: #131313;
+	padding-top: 1rem;
+}

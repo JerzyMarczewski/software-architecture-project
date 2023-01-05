@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from "react";
 import HomeView from "../views/Home.view";
 import axios from "axios";
-import { UpcomingMovie } from "../helpers/types";
+import { UpcomingMovie, Section } from "../helpers/types";
 
 const HomeContainer = (): ReactElement => {
 	const [upcomingMovies, setUpcomingMovies] = useState<UpcomingMovie[]>([]);
@@ -9,8 +9,9 @@ const HomeContainer = (): ReactElement => {
 	const [topRatedMovies, setTopRatedMovies] = useState<UpcomingMovie[]>([]);
 	const [searchMovies, setSearchMovies] = useState<UpcomingMovie[]>([]);
 	const [enteredText, setEnteredText] = useState("");
+	const [section, setSection] = useState<Section>("upcoming");
 
-	const getUpcomingMovies = async (type: "top_rated" | "popular" | "upcoming"): Promise<void> => {
+	const getUpcomingMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
 
 		// 'https://api.themoviedb.org/3/movie/top_rated?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US&page=1'
@@ -79,6 +80,10 @@ const HomeContainer = (): ReactElement => {
 		setEnteredText((event.target as HTMLInputElement).value);
 	};
 
+	const changeSectionHandler = (sectionName: Section): void => {
+		setSection(sectionName);
+	};
+
 	useEffect(() => {
 		void (async () => {
 			await getUpcomingMovies("popular");
@@ -96,6 +101,8 @@ const HomeContainer = (): ReactElement => {
 			searchedMovies={searchMovies}
 			// eslint-disable-next-line @typescript-eslint/no-misused-promises
 			onSubmit={onSubmit}
+			onChangeSection={changeSectionHandler}
+			section={section}
 		/>
 	);
 };
