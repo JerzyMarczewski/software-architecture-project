@@ -10,6 +10,7 @@ const HomeContainer = (): ReactElement => {
 	const [searchMovies, setSearchMovies] = useState<UpcomingMovie[]>([]);
 	const [enteredText, setEnteredText] = useState("");
 	const [section, setSection] = useState<Section>("upcoming");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const getUpcomingMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
@@ -81,6 +82,12 @@ const HomeContainer = (): ReactElement => {
 	};
 
 	const changeSectionHandler = (sectionName: Section): void => {
+		setIsLoading(true);
+
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 300);
+
 		setSection(sectionName);
 	};
 
@@ -99,6 +106,7 @@ const HomeContainer = (): ReactElement => {
 			topRatedMovies={topRatedMovies}
 			onEnteredText={onEnteredText}
 			searchedMovies={searchMovies}
+			isLoading={isLoading}
 			// eslint-disable-next-line @typescript-eslint/no-misused-promises
 			onSubmit={onSubmit}
 			onChangeSection={changeSectionHandler}

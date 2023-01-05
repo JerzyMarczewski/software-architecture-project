@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, ReactElement } from "react";
 import { Section, UpcomingMovie } from "../helpers/types";
 import styles from "./home.module.css";
 import CardView from "./Card.view";
+import arrow from "../assets/arrow-down-solid.svg";
 
 export const MOVIE_DB_IMAGE_URL = {
 	small: "https://image.tmdb.org/t/p/w185",
@@ -19,12 +20,14 @@ const HomeView: React.FC<{
 	onChangeSection: (section: Section) => void;
 	searchedMovies: UpcomingMovie[];
 	section: Section;
+	isLoading: boolean;
 }> = ({
 	upcomingMovies,
 	popularMovies,
 	topRatedMovies,
 	searchedMovies,
 	section,
+	isLoading,
 	onSubmit,
 	onEnteredText,
 	onChangeSection,
@@ -36,12 +39,19 @@ const HomeView: React.FC<{
 	return (
 		<div className={styles.container}>
 			<header className={styles.header}>
-				<h1>Let&apos;s find your movie or tv series</h1>
+				<div>
+					<h1>Let&apos;s find your movie or tv series</h1>
+					<h2>{popularMovies[0].title}</h2>
+				</div>
 				<img
 					className={styles.hero}
 					src={`https://image.tmdb.org/t/p/original${popularMovies[0].backdrop_path}`}
 				/>
 				<div className={styles.backdrop}></div>
+
+				<div className={styles.scroll}>
+					<img src={arrow} alt="Scroll down" />
+				</div>
 			</header>
 			<form onSubmit={onSubmit} className={styles.form}>
 				<input
@@ -81,7 +91,8 @@ const HomeView: React.FC<{
 				</button>
 			</div>
 			<div className={styles.main}>
-				{searchedMovies.length !== 0 && (
+				{isLoading && <div className={styles.message}>Loading...</div>}
+				{searchedMovies.length !== 0 && !isLoading && (
 					<section>
 						<h2 className={styles["section-header"]}>Upcoming movies</h2>
 						<div className={styles.cards}>
@@ -91,7 +102,7 @@ const HomeView: React.FC<{
 						</div>
 					</section>
 				)}
-				{section === "upcoming" && searchedMovies.length === 0 && (
+				{section === "upcoming" && !isLoading && searchedMovies.length === 0 && (
 					<section>
 						<h2 className={styles["section-header"]}>Upcoming movies</h2>
 						<div className={styles.cards}>
@@ -101,7 +112,7 @@ const HomeView: React.FC<{
 						</div>
 					</section>
 				)}
-				{section === "popular" && searchedMovies.length === 0 && (
+				{section === "popular" && !isLoading && searchedMovies.length === 0 && (
 					<section>
 						<h2 className={styles["section-header"]}>Popular movies</h2>
 						<div className={styles.cards}>
@@ -111,7 +122,7 @@ const HomeView: React.FC<{
 						</div>
 					</section>
 				)}
-				{section === "top_rated" && searchedMovies.length === 0 && (
+				{section === "top_rated" && !isLoading && searchedMovies.length === 0 && (
 					<section>
 						<h2 className={styles["section-header"]}>Top rated movies</h2>
 						<div className={styles.cards}>

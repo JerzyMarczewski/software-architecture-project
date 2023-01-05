@@ -1,6 +1,9 @@
 .container {
 	width: 100%;
-	padding-bottom: 2rem;
+}
+
+.main {
+	padding: 0 1rem;
 }
 
 .header {
@@ -8,7 +11,17 @@
 	z-index: 0;
 }
 
-.header h1 {
+.scroll {
+	position: sticky;
+	bottom: 2rem;
+	left: 50%;
+	transform: translateX(50%);
+	z-index: 2;
+	color: var(--background-color);
+	animation: slide infinite 1s;
+}
+
+.header div:first-child {
 	color: var(--font-color);
 	position: absolute;
 	top: 65%;
@@ -17,11 +30,14 @@
 	z-index: 2;
 }
 
+.header h2 {
+	display: none;
+}
+
 .backdrop {
 	position: absolute;
 	inset: 0;
 	z-index: 1;
-	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .cards {
@@ -32,12 +48,21 @@
 
 .hero {
 	max-width: 100%;
+	object-fit: fill;
+	object-position: center;
 }
 
 .section-header {
 	text-align: center;
 	margin: 2rem 0;
 	font-size: 2rem;
+}
+
+.message {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	margin-top: 3rem;
 }
 
 .form {
@@ -47,6 +72,7 @@
 	gap: 0.15rem;
 	max-width: 1000px;
 	margin: 1rem auto;
+	padding: 0 1rem;
 }
 
 .input {
@@ -71,6 +97,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 0 1rem;
 }
 
 .button-container button {
@@ -111,16 +138,34 @@
 		font-size: 3rem;
 		left: 5rem;
 	}
+
+	.header h2 {
+		display: block;
+	}
 }
 
 @media (min-width: 1920px) {
 	.cards {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(5, 1fr);
 	}
 
 	.header h1 {
 		font-size: 4.5rem;
 		left: 5rem;
 		margin-right: 5rem;
+	}
+}
+
+@keyframes slide {
+	0% {
+		transform: translate(50%, 0);
+	}
+
+	50% {
+		transform: translate(50%, 40%);
+	}
+
+	100% {
+		transform: translate(50%, 0);
 	}
 }
