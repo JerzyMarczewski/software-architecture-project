@@ -3,24 +3,46 @@ import { useParams } from "react-router";
 import MovieView from "../views/Movie.view";
 import axios from "axios";
 
-import { Movie } from "../helpers/types";
+import { Movie, MovieCredits, SimilarMovies } from "../helpers/types";
 
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
 
 	const [movie, setMovie] = useState<Movie>();
+	const [credits, setCredits] = useState<MovieCredits>();
+	const [similar, setSimilar] = useState<SimilarMovies>();
 
 	useEffect(() => {
 		if (movieId === undefined) return;
 
 		void (async () => {
+			const { VITE_API_KEY } = import.meta.env;
+			if (VITE_API_KEY === undefined) throw new Error("No API key");
 			try {
-				const response = await axios.get(
-					`https://api.themoviedb.org/3/movie/${movieId}?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US`,
+				const movieResponse = await axios.get(
+					`https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+						VITE_API_KEY as string
+					}&language=en-US`,
 				);
-				if (response.status !== 200) throw new Error();
+				if (movieResponse.status !== 200) throw new Error();
+				setMovie(movieResponse.data);
 
-				setMovie(response.data);
+				const creditsResponse = await axios.get(
+					`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${
+						VITE_API_KEY as string
+					}&language=en-US`,
+				);
+				if (creditsResponse.status !== 200) throw new Error();
+				setCredits(creditsResponse.data);
+
+				const similarResponse = await axios.get(
+					`
+					https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${
+						VITE_API_KEY as string
+					}&language=en-US&page=1`,
+				);
+				if (similarResponse.status !== 200) throw new Error();
+				setSimilar(similarResponse.data);
 			} catch (err) {
 				console.log(err);
 			}
@@ -29,7 +51,7 @@ const MovieContainer = (): ReactElement => {
 
 	return (
 		<>
-			<MovieView movie={movie} />
+			<MovieView movie={movie} credits={credits} similar={similar} />
 		</>
 	);
 };
