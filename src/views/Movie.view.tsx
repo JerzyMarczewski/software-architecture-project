@@ -24,6 +24,17 @@ const MovieView: React.FC<{
 		.join(", ");
 	const release: string = movie?.release_date ?? "unknown";
 
+	const cast = credits?.cast.map((character) => (
+		<div key={character.cast_id}>
+			{character.profile_path !== null ? (
+				<img src={`https://image.tmdb.org/t/p/w300${character.profile_path}`} alt="" />
+			) : null}
+
+			<p>{character.name}</p>
+			<p>{character.character}</p>
+		</div>
+	));
+
 	const info = (
 		<div>
 			<div>Director</div>
@@ -44,6 +55,7 @@ const MovieView: React.FC<{
 			{image}
 			<p>{movie.overview}</p>
 			{info}
+			{cast}
 		</div>
 	);
 };
