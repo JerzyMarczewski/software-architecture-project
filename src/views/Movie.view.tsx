@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
-import { Movie, MovieCredits, SimilarMovies } from "../helpers/types";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Movie, MovieCredits, SimilarMovies, Images } from "../helpers/types";
 import styles from "./Movie.module.css";
 import PersonCardView from "./PersonCard.view";
 
@@ -7,7 +9,8 @@ const MovieView: React.FC<{
 	movie: Movie | undefined;
 	credits: MovieCredits | undefined;
 	similar: SimilarMovies | undefined;
-}> = ({ movie, credits, similar }): ReactElement => {
+	images: Images | undefined;
+}> = ({ movie, credits, similar, images }): ReactElement => {
 	if (movie === undefined) return <div>Loading...</div>;
 
 	const image: JSX.Element | null =
@@ -62,6 +65,14 @@ const MovieView: React.FC<{
 		</div>
 	);
 
+	const imagesCarousel = (
+		<Carousel showArrows={true}>
+			<div>{image}</div>
+			<div>{image}</div>
+			<div>{image}</div>
+		</Carousel>
+	);
+
 	const cast = (
 		<div className={styles.castContainer}>
 			<h3>Cast:</h3>
@@ -73,20 +84,26 @@ const MovieView: React.FC<{
 		</div>
 	);
 
-	const suggestions = similar?.results.map((suggestion) => (
-		<div key={suggestion.id}>
-			{suggestion.poster_path !== null ? (
-				<img src={`https://image.tmdb.org/t/p/w200${suggestion.poster_path}`} alt="" />
-			) : null}
-			<p>{suggestion.vote_average.toFixed(1)}</p>
-			<p>{suggestion.title}</p>
+	const suggestions = (
+		<div className={styles.suggestions}>
+			<h3>You may also like:</h3>
+			{similar?.results.map((suggestion) => (
+				<div key={suggestion.id}>
+					{suggestion.poster_path !== null ? (
+						<img src={`https://image.tmdb.org/t/p/w200${suggestion.poster_path}`} alt="" />
+					) : null}
+					<p>{suggestion.vote_average.toFixed(1)}</p>
+					<p>{suggestion.title}</p>
+				</div>
+			))}
 		</div>
-	));
+	);
 
 	return (
 		<div className={styles.movieView}>
 			{header}
 			{overview}
+			{imagesCarousel}
 			{cast}
 			{suggestions}
 		</div>
