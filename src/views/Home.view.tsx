@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, ReactElement } from "react";
-import { Section, UpcomingMovie } from "../helpers/types";
+import { Section, Status, UpcomingMovie } from "../helpers/types";
 import styles from "./home.module.css";
 import CardView from "./Card.view";
 import arrow from "../assets/arrow-down-solid.svg";
@@ -21,6 +21,7 @@ const HomeView: React.FC<{
 	searchedMovies: UpcomingMovie[];
 	section: Section;
 	isLoading: boolean;
+	status: Status;
 }> = ({
 	upcomingMovies,
 	popularMovies,
@@ -28,12 +29,17 @@ const HomeView: React.FC<{
 	searchedMovies,
 	section,
 	isLoading,
+	status,
 	onSubmit,
 	onEnteredText,
 	onChangeSection,
 }): ReactElement => {
-	if (upcomingMovies.length === 0 || popularMovies.length === 0 || topRatedMovies.length === 0) {
-		return <div>Loading...</div>;
+	if (status === "loading") {
+		return <div className={styles.message}>Loading...</div>;
+	}
+
+	if (status === "error") {
+		return <div className={styles.error}>Something went wrong! Try later!</div>;
 	}
 
 	return (
@@ -44,7 +50,7 @@ const HomeView: React.FC<{
 					<h2>{popularMovies[0].title}</h2>
 				</div>
 				<img
-					className={styles.hero}
+					className={styles["hero-image"]}
 					src={`https://image.tmdb.org/t/p/original${popularMovies[0].backdrop_path}`}
 				/>
 				<div className={styles.backdrop}></div>

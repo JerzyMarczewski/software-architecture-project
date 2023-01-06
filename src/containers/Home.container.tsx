@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from "react";
 import HomeView from "../views/Home.view";
 import axios from "axios";
-import { UpcomingMovie, Section } from "../helpers/types";
+import { UpcomingMovie, Section, Status } from "../helpers/types";
 
 const HomeContainer = (): ReactElement => {
 	const [upcomingMovies, setUpcomingMovies] = useState<UpcomingMovie[]>([]);
@@ -11,15 +11,11 @@ const HomeContainer = (): ReactElement => {
 	const [enteredText, setEnteredText] = useState("");
 	const [section, setSection] = useState<Section>("upcoming");
 	const [isLoading, setIsLoading] = useState(false);
+	const [status, setStatus] = useState<Status>("loading");
 
 	const getUpcomingMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
-
-		// 'https://api.themoviedb.org/3/movie/top_rated?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US&page=1'
-
-		// https://api.themoviedb.org/3/movie/popular?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US&page=1
-
-		// https://api.themoviedb.org/3/genre/movie/list?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US
+		setStatus("loading");
 
 		try {
 			const response = await axios.get(
@@ -29,6 +25,7 @@ const HomeContainer = (): ReactElement => {
 			);
 
 			if (response.status !== 200) {
+				setStatus("error");
 				throw new Error(response.statusText);
 			}
 
@@ -41,7 +38,9 @@ const HomeContainer = (): ReactElement => {
 			if (type === "top_rated") {
 				setTopRatedMovies(response.data.results);
 			}
+			setStatus("ok");
 		} catch (error) {
+			setStatus("error");
 			if (error instanceof Error) {
 				console.error(error.message);
 			}
@@ -50,6 +49,7 @@ const HomeContainer = (): ReactElement => {
 
 	const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
+		setStatus("loading");
 		const { VITE_API_KEY } = import.meta.env;
 
 		if (enteredText.length === 0) {
@@ -65,12 +65,14 @@ const HomeContainer = (): ReactElement => {
 			);
 
 			if (response.status !== 200) {
+				setStatus("error");
 				throw new Error("Something went wrong!");
 			}
 
 			setSearchMovies(response.data.results);
-			// console.log(response);
+			setStatus("ok");
 		} catch (error) {
+			setStatus("error");
 			if (error instanceof Error) {
 				alert(error.message);
 			}
@@ -107,10 +109,14 @@ const HomeContainer = (): ReactElement => {
 			onEnteredText={onEnteredText}
 			searchedMovies={searchMovies}
 			isLoading={isLoading}
-			// eslint-disable-next-line @typescript-eslint/no-misused-promises
-			onSubmit={onSubmit}
+			onSubmit={(event) => {
+				void (async () => {
+					await onSubmit(event);
+				})();
+			}}
 			onChangeSection={changeSectionHandler}
 			section={section}
+			status={status}
 		/>
 	);
 };
