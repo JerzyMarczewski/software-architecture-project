@@ -15,7 +15,11 @@ const MovieView: React.FC<{
 
 	const director: string =
 		credits?.crew.find((person) => person.job === "Director")?.name ?? "unknown";
-	const writer: string = credits?.crew.find((person) => person.job === "Writer")?.name ?? "unknown";
+	const writer: string =
+		credits?.crew
+			.filter((person) => person.department === "Writing" && person.job === "Story")
+			.map((person) => person.name)
+			.join(", ") ?? "unknown";
 	const genres: string = Object.keys(movie.genres)
 		.map((key: number | string) => movie.genres[key as number].name)
 		.join(", ");
@@ -53,6 +57,7 @@ const MovieView: React.FC<{
 	return (
 		<div>
 			{image}
+			{movie.title}
 			<p>{movie.overview}</p>
 			{info}
 			{cast}
