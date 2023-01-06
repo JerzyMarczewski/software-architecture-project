@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
 import { Movie, MovieCredits, SimilarMovies } from "../helpers/types";
+import styles from "./Movie.module.css";
+import PersonCardView from "./PersonCard.view";
 
 const MovieView: React.FC<{
 	movie: Movie | undefined;
@@ -10,34 +12,45 @@ const MovieView: React.FC<{
 
 	const image: JSX.Element | null =
 		movie.poster_path !== null ? (
-			<img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="" />
+			<img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
 		) : null;
+
+	const header = (
+		<div className={styles.header}>
+			{image}
+			<div className={styles.overview}>
+				<h1>{movie.title}</h1>
+				<p>{movie.overview}</p>
+			</div>
+		</div>
+	);
 
 	const director: string =
 		credits?.crew.find((person) => person.job === "Director")?.name ?? "unknown";
+
 	const writer: string =
 		credits?.crew
 			.filter((person) => person.department === "Writing" && person.job === "Story")
 			.map((person) => person.name)
 			.join(", ") ?? "unknown";
+
 	const genres: string = Object.keys(movie.genres)
 		.map((key: number | string) => movie.genres[key as number].name)
 		.join(", ");
+
 	const production: string = Object.keys(movie?.production_countries)
 		.map((key: number | string) => movie.production_countries[key as number].name)
 		.join(", ");
+
 	const release: string = movie?.release_date ?? "unknown";
 
-	const cast = credits?.cast.map((character) => (
-		<div key={character.cast_id}>
-			{character.profile_path !== null ? (
-				<img src={`https://image.tmdb.org/t/p/w200${character.profile_path}`} alt="" />
-			) : null}
-
-			<p>{character.name}</p>
-			<p>{character.character}</p>
+	const cast = (
+		<div className={styles.cast}>
+			{credits?.cast.map((person) => (
+				<PersonCardView key={person.cast_id} person={person} />
+			))}
 		</div>
-	));
+	);
 
 	const suggestions = similar?.results.map((suggestion) => (
 		<div key={suggestion.id}>
@@ -50,7 +63,7 @@ const MovieView: React.FC<{
 	));
 
 	const info = (
-		<div>
+		<div className={styles.infoContainer}>
 			<div>Director</div>
 			<div>{director}</div>
 			<div>Writer</div>
@@ -66,9 +79,7 @@ const MovieView: React.FC<{
 
 	return (
 		<div>
-			{image}
-			{movie.title}
-			<p>{movie.overview}</p>
+			{header}
 			{info}
 			{cast}
 			{suggestions}
