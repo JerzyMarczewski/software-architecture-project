@@ -12,8 +12,9 @@ const CardView: React.FC<{ movie: UpcomingMovie }> = ({ movie }): ReactElement =
 					src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
 				/>
 				<div className={styles["card-body"]}>
-					<div>{movie.release_date.slice(0, 4)}</div>
 					<h3>{movie.title}</h3>
+					<p>{movie.release_date.slice(0, 4)}</p>
+					<p>{movie.vote_average}/10</p>
 				</div>
 			</div>
 		</Link>

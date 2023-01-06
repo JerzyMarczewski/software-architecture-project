@@ -120,3 +120,5 @@ export interface SimilarMovies {
 }
 
 export type Section = "top_rated" | "popular" | "upcoming";
+
+export type Status = "loading" | "error" | "ok";
