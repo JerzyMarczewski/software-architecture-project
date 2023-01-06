@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import MovieView from "../views/Movie.view";
 import axios from "axios";
 
-import { Movie, MovieCredits, SimilarMovies } from "../helpers/types";
+import { Movie, MovieCredits, SimilarMovies, Images } from "../helpers/types";
 
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
@@ -11,6 +11,7 @@ const MovieContainer = (): ReactElement => {
 	const [movie, setMovie] = useState<Movie>();
 	const [credits, setCredits] = useState<MovieCredits>();
 	const [similar, setSimilar] = useState<SimilarMovies>();
+	const [images, setImages] = useState<Images>();
 
 	useEffect(() => {
 		if (movieId === undefined) return;
@@ -43,6 +44,15 @@ const MovieContainer = (): ReactElement => {
 				);
 				if (similarResponse.status !== 200) throw new Error();
 				setSimilar(similarResponse.data);
+
+				const imagesResponse = await axios.get(
+					`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${
+						VITE_API_KEY as string
+					}&language=en-US`,
+				);
+				if (imagesResponse.status !== 200) throw new Error();
+				console.log(imagesResponse.data);
+				setImages(imagesResponse.data);
 			} catch (err) {
 				console.log(err);
 			}
@@ -51,7 +61,7 @@ const MovieContainer = (): ReactElement => {
 
 	return (
 		<>
-			<MovieView movie={movie} credits={credits} similar={similar} />
+			<MovieView movie={movie} credits={credits} similar={similar} images={images} />
 		</>
 	);
 };
