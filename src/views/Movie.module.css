@@ -29,6 +29,7 @@
 .infoContainer > div:nth-child(2n+1){
   justify-self: self-start;
   color: yellow;
+  font-weight: bold;
 }
 
 .overviewContainer {
