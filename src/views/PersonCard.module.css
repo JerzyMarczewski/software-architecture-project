@@ -1,0 +1,43 @@
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+.personCard  {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+
+  width: 600px;
+  cursor: pointer;
+}
+
+.personCard > img,
+.personCard > .blankImage {
+  margin-right: 30px;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  background-color: #aaa;
+}
+
+.personCard > .text {
+  text-decoration: none;
+  color: white;
+}
+
+.personCard > .text > p {
+  color: #aaa;
+}
