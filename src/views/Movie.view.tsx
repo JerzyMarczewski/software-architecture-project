@@ -84,7 +84,7 @@ const MovieView: React.FC<{
 	));
 
 	return (
-		<div>
+		<div className={styles.movieView}>
 			{header}
 			{overview}
 			{cast}
