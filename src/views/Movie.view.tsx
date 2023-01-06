@@ -9,8 +9,8 @@ const MovieView: React.FC<{
 	if (movie === undefined) return <div>Loading...</div>;
 
 	const image: JSX.Element | null =
-		movie.backdrop_path !== null ? (
-			<img src={`https://image.tmdb.org/t/p/w300${movie.backdrop_path}`} alt="" />
+		movie.poster_path !== null ? (
+			<img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="" />
 		) : null;
 
 	const director: string =
@@ -31,11 +31,21 @@ const MovieView: React.FC<{
 	const cast = credits?.cast.map((character) => (
 		<div key={character.cast_id}>
 			{character.profile_path !== null ? (
-				<img src={`https://image.tmdb.org/t/p/w300${character.profile_path}`} alt="" />
+				<img src={`https://image.tmdb.org/t/p/w200${character.profile_path}`} alt="" />
 			) : null}
 
 			<p>{character.name}</p>
 			<p>{character.character}</p>
+		</div>
+	));
+
+	const suggestions = similar?.results.map((suggestion) => (
+		<div key={suggestion.id}>
+			{suggestion.poster_path !== null ? (
+				<img src={`https://image.tmdb.org/t/p/w200${suggestion.poster_path}`} alt="" />
+			) : null}
+			<p>{suggestion.vote_average.toFixed(1)}</p>
+			<p>{suggestion.title}</p>
 		</div>
 	));
 
@@ -61,6 +71,7 @@ const MovieView: React.FC<{
 			<p>{movie.overview}</p>
 			{info}
 			{cast}
+			{suggestions}
 		</div>
 	);
 };
