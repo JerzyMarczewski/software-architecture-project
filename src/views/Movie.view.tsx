@@ -15,16 +15,6 @@ const MovieView: React.FC<{
 			<img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
 		) : null;
 
-	const header = (
-		<div className={styles.header}>
-			{image}
-			<div className={styles.overview}>
-				<h1>{movie.title}</h1>
-				<p>{movie.overview}</p>
-			</div>
-		</div>
-	);
-
 	const director: string =
 		credits?.crew.find((person) => person.job === "Director")?.name ?? "unknown";
 
@@ -44,11 +34,42 @@ const MovieView: React.FC<{
 
 	const release: string = movie?.release_date ?? "unknown";
 
+	const header = (
+		<div className={styles.header}>
+			{image}
+			<div className={styles.infoAndTitle}>
+				<h1>{movie.title}</h1>
+				<div className={styles.infoContainer}>
+					<div>Director</div>
+					<div>{director}</div>
+					<div>Writer</div>
+					<div>{writer}</div>
+					<div>Genre</div>
+					<div>{genres}</div>
+					<div>Production</div>
+					<div>{production}</div>
+					<div>Release</div>
+					<div>{release}</div>
+				</div>
+			</div>
+		</div>
+	);
+
+	const overview = (
+		<div className={styles.overviewContainer}>
+			<h3>Overview:</h3>
+			<div className={styles.overview}>{movie.overview}</div>
+		</div>
+	);
+
 	const cast = (
-		<div className={styles.cast}>
-			{credits?.cast.map((person) => (
-				<PersonCardView key={person.cast_id} person={person} />
-			))}
+		<div className={styles.castContainer}>
+			<h3>Cast:</h3>
+			<div className={styles.cast}>
+				{credits?.cast.map((person) => (
+					<PersonCardView key={person.cast_id} person={person} />
+				))}
+			</div>
 		</div>
 	);
 
@@ -62,25 +83,10 @@ const MovieView: React.FC<{
 		</div>
 	));
 
-	const info = (
-		<div className={styles.infoContainer}>
-			<div>Director</div>
-			<div>{director}</div>
-			<div>Writer</div>
-			<div>{writer}</div>
-			<div>Genre</div>
-			<div>{genres}</div>
-			<div>Production</div>
-			<div>{production}</div>
-			<div>Release</div>
-			<div>{release}</div>
-		</div>
-	);
-
 	return (
 		<div>
 			{header}
-			{info}
+			{overview}
 			{cast}
 			{suggestions}
 		</div>

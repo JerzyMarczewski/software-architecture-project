@@ -1,9 +1,10 @@
 .header {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 }
 
-.header > .overview {
+.header > .infoAndTitle {
   margin: 20px;
 }
 
@@ -13,14 +14,26 @@
 }
 
 .infoContainer {
-  margin: 20px;
-
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 2fr;
+  gap:0 10px;
 }
 
 .infoContainer > div:nth-child(2n+1){
+  justify-self: self-start;
   color: yellow;
+}
+
+.overviewContainer {
+  margin: 20px;
+}
+
+.overviewContainer > h3{
+  margin-bottom: 10px;
+}
+
+.castContainer {
+  margin: 20px;
 }
 
 .cast {
@@ -44,12 +57,12 @@
     height: auto;
   }
 
-  .infoContainer{
+  .overviewContainer {
     margin: 20px 10%;
   }
-}
-
-@media only screen and (min-width: 1440px) {
+  .castContainer {
+    margin: 20px 10%;
+  }
   .cast {
     grid-template-columns: 1fr 1fr;
   }
