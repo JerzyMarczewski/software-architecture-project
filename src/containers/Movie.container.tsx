@@ -5,16 +5,17 @@ import axios from "axios";
 
 import styles from "../views/Movie.module.css";
 
-import { Movie, MovieCredits, SimilarMovies, Images } from "../helpers/types";
+import { Movie, MovieCredits, SimilarMovies } from "../helpers/types";
 import PersonCardView from "../views/PersonCard.view";
 
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
 
+	const [isLoaded, setIsLoaded] = useState<Boolean>(false);
 	const [movie, setMovie] = useState<Movie>();
 	const [credits, setCredits] = useState<MovieCredits>();
 	const [similar, setSimilar] = useState<SimilarMovies>();
-	const [images, setImages] = useState<Images>();
+	// const [images, setImages] = useState<Images>();
 
 	useEffect(() => {
 		if (movieId === undefined) return;
@@ -48,14 +49,16 @@ const MovieContainer = (): ReactElement => {
 				if (similarResponse.status !== 200) throw new Error();
 				setSimilar(similarResponse.data);
 
-				const imagesResponse = await axios.get(
-					`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${
-						VITE_API_KEY as string
-					}&language=en-US`,
-				);
-				if (imagesResponse.status !== 200) throw new Error();
-				console.log(imagesResponse.data);
-				setImages(imagesResponse.data);
+				// const imagesResponse = await axios.get(
+				// 	`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${
+				// 		VITE_API_KEY as string
+				// 	}&language=en-US`,
+				// );
+				// if (imagesResponse.status !== 200) throw new Error();
+				// console.log(imagesResponse.data);
+				// setImages(imagesResponse.data);
+
+				setIsLoaded(true);
 			} catch (err) {
 				console.log(err);
 			}
@@ -149,10 +152,7 @@ const MovieContainer = (): ReactElement => {
 	return (
 		<>
 			<MovieView
-				movie={movie}
-				credits={credits}
-				similar={similar}
-				images={images}
+				isLoaded={isLoaded}
 				header={header}
 				overview={overview}
 				cast={cast}

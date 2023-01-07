@@ -4,12 +4,13 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "./Movie.module.css";
 
 const MovieView: React.FC<{
+	isLoaded: Boolean;
 	header: JSX.Element;
 	overview: JSX.Element;
 	cast: JSX.Element;
 	suggestions: JSX.Element;
-}> = ({ header, overview, cast, suggestions }): ReactElement => {
-	// if (movie === undefined) return <div>Loading...</div>;
+}> = ({ isLoaded, header, overview, cast, suggestions }): ReactElement => {
+	if (isLoaded === false) return <div>Loading...</div>;
 
 	return (
 		<div className={styles.movieView}>
