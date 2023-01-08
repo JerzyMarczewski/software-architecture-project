@@ -1,14 +1,16 @@
-import { FormEvent, ReactElement, useState } from "react";
+import { FormEvent, ReactElement, useContext, useState } from "react";
 import LoginView from "../views/Login.view";
 import { supabase } from "../helpers/supabaseClient";
 import { AuthResponse } from "@supabase/supabase-js";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../context/auth-context";
 
 const LoginContainer = (): ReactElement => {
 	const navigate = useNavigate();
 	const [enteredEmail, setEnteredEmail] = useState("");
 	const [enteredPassword, setEnteredPassword] = useState("");
 	const [isRegister, setIsRegister] = useState(true);
+	const { getSession } = useContext(AuthContext);
 
 	const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
@@ -38,8 +40,9 @@ const LoginContainer = (): ReactElement => {
 			if (response.error !== null) {
 				throw new Error("Something went wrong!");
 			}
+
+			getSession();
 			navigate("/");
-			console.log(response.data);
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message);

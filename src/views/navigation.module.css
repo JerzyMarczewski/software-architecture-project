@@ -1,0 +1,61 @@
+.container {
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 25;
+	padding: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--grey-color);
+	border-bottom-right-radius: var(--rounded);
+	border-bottom-right-radius: var(--rounded);
+	box-shadow: 0 0 10px var(--grey-color);
+}
+
+.logo {
+	text-decoration: none;
+	color: var(--font-color);
+}
+
+.logo:visited {
+	color: var(--font-color);
+}
+
+.logo:active {
+	color: var(--font-color);
+}
+
+.login-button {
+	border-radius: var(--rounded);
+	background-color: var(--font-color);
+	color: var(--background-color);
+	text-decoration: none;
+	padding: 0.5rem 1.5rem;
+	transition: opacity 0.3s;
+}
+
+.login-button:hover {
+	opacity: 0.7;
+}
+
+.login-button:visited {
+	color: var(--background-color);
+}
+
+.login-button:active {
+	color: var(--background-color);
+}
+
+.logout-button {
+	border-radius: var(--rounded);
+	background-color: var(--font-color);
+	color: var(--background-color);
+	padding: 0.5rem 1.5rem;
+	transition: opacity 0.3s;
+	cursor: pointer;
+}
+
+.logout-button:hover {
+	opacity: 0.7;
+}
