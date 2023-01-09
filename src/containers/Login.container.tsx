@@ -4,11 +4,13 @@ import { supabase } from "../helpers/supabaseClient";
 import { AuthResponse } from "@supabase/supabase-js";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../context/auth-context";
+import RegisterView from "../views/Register.view";
 
 const LoginContainer = (): ReactElement => {
 	const navigate = useNavigate();
 	const [enteredEmail, setEnteredEmail] = useState("");
 	const [enteredPassword, setEnteredPassword] = useState("");
+	const [repeatedPassword, setRepeatedPassword] = useState("");
 	const [isRegister, setIsRegister] = useState(true);
 	const { getSession } = useContext(AuthContext);
 
@@ -16,7 +18,6 @@ const LoginContainer = (): ReactElement => {
 		event.preventDefault();
 
 		let response: AuthResponse;
-		console.log(isRegister);
 
 		if (enteredEmail.length === 0 || enteredPassword.length === 0) {
 			return;
@@ -34,7 +35,7 @@ const LoginContainer = (): ReactElement => {
 					password: enteredPassword,
 				});
 			}
-			console.log("object");
+
 			setEnteredEmail("");
 			setEnteredPassword("");
 			if (response.error !== null) {
@@ -63,20 +64,42 @@ const LoginContainer = (): ReactElement => {
 		setEnteredPassword(password);
 	};
 
+	const changeEnteredRepeatedPassword = (password: string): void => {
+		setRepeatedPassword(password);
+	};
+
 	return (
-		<LoginView
-			email={enteredEmail}
-			password={enteredPassword}
-			isRegister={isRegister}
-			onChangeEnteredEmail={changeEnteredEmailHandler}
-			onChangeEnteredPassword={changeEnteredPasswordHandler}
-			onRegister={registerHandler}
-			onSubmit={(event) => {
-				void (async () => {
-					await onSubmit(event);
-				})();
-			}}
-		/>
+		<>
+			{isRegister ? (
+				<LoginView
+					email={enteredEmail}
+					password={enteredPassword}
+					onChangeEnteredEmail={changeEnteredEmailHandler}
+					onChangeEnteredPassword={changeEnteredPasswordHandler}
+					onRegister={registerHandler}
+					onSubmit={(event) => {
+						void (async () => {
+							await onSubmit(event);
+						})();
+					}}
+				/>
+			) : (
+				<RegisterView
+					email={enteredEmail}
+					password={enteredPassword}
+					repeatedPassword={repeatedPassword}
+					onChangeEnteredEmail={changeEnteredEmailHandler}
+					onChangeEnteredPassword={changeEnteredPasswordHandler}
+					onChangeRepeatedPassword={changeEnteredRepeatedPassword}
+					onRegister={registerHandler}
+					onSubmit={(event) => {
+						void (async () => {
+							await onSubmit(event);
+						})();
+					}}
+				/>
+			)}
+		</>
 	);
 };
 

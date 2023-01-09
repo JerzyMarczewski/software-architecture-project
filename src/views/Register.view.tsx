@@ -1,20 +1,24 @@
 import { FormEvent, ReactElement } from "react";
 import styles from "./login.module.css";
 
-const LoginView: React.FC<{
+const RegisterView: React.FC<{
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 	onChangeEnteredEmail: (email: string) => void;
 	onChangeEnteredPassword: (password: string) => void;
 	onRegister: () => void;
+	onChangeRepeatedPassword: (password: string) => void;
 	email: string;
 	password: string;
+	repeatedPassword: string;
 }> = ({
 	onSubmit,
 	onChangeEnteredEmail,
 	onChangeEnteredPassword,
+	onChangeRepeatedPassword,
 	onRegister,
 	email,
 	password,
+	repeatedPassword,
 }): ReactElement => {
 	return (
 		<div className={styles.container}>
@@ -37,15 +41,24 @@ const LoginView: React.FC<{
 					type="password"
 					id="password"
 				/>
+				<label htmlFor="repeat-password">Repeat password</label>
+				<input
+					value={repeatedPassword}
+					onChange={(event) => {
+						onChangeRepeatedPassword(event.target.value);
+					}}
+					type="repeat-password"
+					id="repeat-password"
+				/>
 				<button className={styles["register-btn"]} type="button" onClick={onRegister}>
-					Don&apos;t have account? Register
+					Have an account? Log in
 				</button>
 				<button className={styles["submit-btn"]} type="submit">
-					Log in
+					Register
 				</button>
 			</form>
 		</div>
 	);
 };
 
-export default LoginView;
+export default RegisterView;
