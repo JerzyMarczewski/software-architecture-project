@@ -10,6 +10,7 @@ const RegisterView: React.FC<{
 	email: string;
 	password: string;
 	repeatedPassword: string;
+	errorMessage: string;
 }> = ({
 	onSubmit,
 	onChangeEnteredEmail,
@@ -19,6 +20,7 @@ const RegisterView: React.FC<{
 	email,
 	password,
 	repeatedPassword,
+	errorMessage,
 }): ReactElement => {
 	return (
 		<div className={styles.container}>
@@ -47,9 +49,10 @@ const RegisterView: React.FC<{
 					onChange={(event) => {
 						onChangeRepeatedPassword(event.target.value);
 					}}
-					type="repeat-password"
+					type="password"
 					id="repeat-password"
 				/>
+				<p>{errorMessage}</p>
 				<button className={styles["register-btn"]} type="button" onClick={onRegister}>
 					Have an account? Log in
 				</button>

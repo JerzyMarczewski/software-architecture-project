@@ -8,6 +8,7 @@ const LoginView: React.FC<{
 	onRegister: () => void;
 	email: string;
 	password: string;
+	errorMessage: string;
 }> = ({
 	onSubmit,
 	onChangeEnteredEmail,
@@ -15,6 +16,7 @@ const LoginView: React.FC<{
 	onRegister,
 	email,
 	password,
+	errorMessage,
 }): ReactElement => {
 	return (
 		<div className={styles.container}>
@@ -37,6 +39,7 @@ const LoginView: React.FC<{
 					type="password"
 					id="password"
 				/>
+				<p>{errorMessage}</p>
 				<button className={styles["register-btn"]} type="button" onClick={onRegister}>
 					Don&apos;t have account? Register
 				</button>

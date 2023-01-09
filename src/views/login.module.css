@@ -40,11 +40,16 @@
 
 .register-btn {
 	margin-top: 0.5rem;
-	/* font-size: 1.2rem; */
 	color: var(--font-color);
 	border: none;
 	background: none;
 	cursor: pointer;
+}
+
+.form p {
+	margin-top: 0.5rem;
+	text-align: center;
+	color: red;
 }
 
 @media (min-width: 548px) {
