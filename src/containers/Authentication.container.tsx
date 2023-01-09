@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import { AuthContext } from "../context/auth-context";
 import RegisterView from "../views/Register.view";
 
-const LoginContainer = (): ReactElement => {
+const AuthenticationContainer = (): ReactElement => {
 	const navigate = useNavigate();
 	const [enteredEmail, setEnteredEmail] = useState("");
 	const [enteredPassword, setEnteredPassword] = useState("");
@@ -103,4 +103,4 @@ const LoginContainer = (): ReactElement => {
 	);
 };
 
-export default LoginContainer;
+export default AuthenticationContainer;
