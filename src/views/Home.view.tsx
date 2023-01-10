@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FormEvent, ReactElement } from "react";
 import { Section, Status, UpcomingMovie } from "../helpers/types";
 import styles from "./home.module.css";
-import CardView from "./Card.view";
 import arrow from "../assets/arrow-down-solid.svg";
 
 export const MOVIE_DB_IMAGE_URL = {
@@ -12,27 +11,21 @@ export const MOVIE_DB_IMAGE_URL = {
 };
 
 const HomeView: React.FC<{
-	upcomingMovies: UpcomingMovie[];
 	popularMovies: UpcomingMovie[];
-	topRatedMovies: UpcomingMovie[];
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 	onEnteredText: (event: ChangeEvent<HTMLInputElement>) => void;
 	onChangeSection: (section: Section) => void;
 	searchedMovies: UpcomingMovie[];
 	section: Section;
-	isLoading: boolean;
 	status: Status;
+	selectedSection: JSX.Element | undefined;
 }> = ({
-	upcomingMovies,
 	popularMovies,
-	topRatedMovies,
-	searchedMovies,
-	section,
-	isLoading,
 	status,
 	onSubmit,
 	onEnteredText,
 	onChangeSection,
+	selectedSection,
 }): ReactElement => {
 	if (status === "loading") {
 		return <div className={styles.message}>Loading...</div>;
@@ -96,49 +89,7 @@ const HomeView: React.FC<{
 					Top rated
 				</button>
 			</div>
-			<div className={styles.main}>
-				{isLoading && <div className={styles.message}>Loading...</div>}
-				{searchedMovies.length !== 0 && !isLoading && (
-					<section>
-						<h2 className={styles["section-header"]}>Upcoming movies</h2>
-						<div className={styles.cards}>
-							{searchedMovies.map((movie) => (
-								<CardView movie={movie} key={movie.id} />
-							))}
-						</div>
-					</section>
-				)}
-				{section === "upcoming" && !isLoading && searchedMovies.length === 0 && (
-					<section>
-						<h2 className={styles["section-header"]}>Upcoming movies</h2>
-						<div className={styles.cards}>
-							{upcomingMovies.map((movie) => (
-								<CardView movie={movie} key={movie.id} />
-							))}
-						</div>
-					</section>
-				)}
-				{section === "popular" && !isLoading && searchedMovies.length === 0 && (
-					<section>
-						<h2 className={styles["section-header"]}>Popular movies</h2>
-						<div className={styles.cards}>
-							{popularMovies.map((movie) => (
-								<CardView movie={movie} key={movie.id} />
-							))}
-						</div>
-					</section>
-				)}
-				{section === "top_rated" && !isLoading && searchedMovies.length === 0 && (
-					<section>
-						<h2 className={styles["section-header"]}>Top rated movies</h2>
-						<div className={styles.cards}>
-							{topRatedMovies.map((movie) => (
-								<CardView movie={movie} key={movie.id} />
-							))}
-						</div>
-					</section>
-				)}
-			</div>
+			<div className={styles.main}>{selectedSection}</div>
 		</div>
 	);
 };

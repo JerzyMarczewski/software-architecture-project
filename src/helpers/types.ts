@@ -145,6 +145,6 @@ export interface Images {
 	}>;
 }
 
-export type Section = "top_rated" | "popular" | "upcoming";
+export type Section = "top_rated" | "popular" | "upcoming" | "search";
 
 export type Status = "loading" | "error" | "ok";

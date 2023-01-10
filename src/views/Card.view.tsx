@@ -1,20 +1,22 @@
-import { UpcomingMovie } from "../helpers/types";
 import React, { ReactElement } from "react";
 import styles from "./card.module.css";
 import { Link } from "react-router-dom";
 
-const CardView: React.FC<{ movie: UpcomingMovie }> = ({ movie }): ReactElement => {
+const CardView: React.FC<{
+	id: number;
+	poster: string;
+	title: string;
+	releaseDate: string;
+	voteAverage: number;
+}> = ({ id, poster, releaseDate, title, voteAverage }): ReactElement => {
 	return (
-		<Link to={`/movies/${movie.id}`}>
+		<Link to={`/movies/${id}`}>
 			<div className={styles.card}>
-				<img
-					className={styles["card-img"]}
-					src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-				/>
+				<img className={styles["card-img"]} src={`https://image.tmdb.org/t/p/w300${poster}`} />
 				<div className={styles["card-body"]}>
-					<h3>{movie.title}</h3>
-					<p>{movie.release_date.slice(0, 4)}</p>
-					<p>{movie.vote_average}/10</p>
+					<h3>{title}</h3>
+					<p>{releaseDate.slice(0, 4)}</p>
+					<p>{voteAverage}/10</p>
 				</div>
 			</div>
 		</Link>

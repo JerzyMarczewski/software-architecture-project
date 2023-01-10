@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from "react
 import HomeView from "../views/Home.view";
 import axios from "axios";
 import { UpcomingMovie, Section, Status } from "../helpers/types";
+import styles from "../views/home.module.css";
+import CardView from "../views/Card.view";
 
 const HomeContainer = (): ReactElement => {
 	const [upcomingMovies, setUpcomingMovies] = useState<UpcomingMovie[]>([]);
@@ -10,8 +12,8 @@ const HomeContainer = (): ReactElement => {
 	const [searchMovies, setSearchMovies] = useState<UpcomingMovie[]>([]);
 	const [enteredText, setEnteredText] = useState("");
 	const [section, setSection] = useState<Section>("upcoming");
-	const [isLoading, setIsLoading] = useState(false);
 	const [status, setStatus] = useState<Status>("loading");
+	const [selectedSection, setSelectedSection] = useState<JSX.Element>();
 
 	const getUpcomingMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
@@ -69,6 +71,7 @@ const HomeContainer = (): ReactElement => {
 				throw new Error("Something went wrong!");
 			}
 
+			setSection("search");
 			setSearchMovies(response.data.results);
 			setStatus("ok");
 		} catch (error) {
@@ -84,12 +87,6 @@ const HomeContainer = (): ReactElement => {
 	};
 
 	const changeSectionHandler = (sectionName: Section): void => {
-		setIsLoading(true);
-
-		setTimeout(() => {
-			setIsLoading(false);
-		}, 300);
-
 		setSection(sectionName);
 	};
 
@@ -101,23 +98,118 @@ const HomeContainer = (): ReactElement => {
 		})();
 	}, []);
 
+	const upcomingMoviesSection = (
+		<section>
+			<h2 className={styles["section-header"]}>Upcoming movies</h2>
+			<div className={styles.cards}>
+				{upcomingMovies.map((movie) => (
+					<CardView
+						id={movie.id}
+						poster={movie.poster_path}
+						releaseDate={movie.release_date}
+						title={movie.title}
+						voteAverage={movie.vote_average}
+						key={movie.id}
+					/>
+				))}
+			</div>
+		</section>
+	);
+
+	const searchMoviesSection = (
+		<section>
+			<h2 className={styles["section-header"]}>Search movies</h2>
+			<div className={styles.cards}>
+				{searchMovies.map((movie) => (
+					<CardView
+						id={movie.id}
+						poster={movie.poster_path}
+						releaseDate={movie.release_date}
+						title={movie.title}
+						voteAverage={movie.vote_average}
+						key={movie.id}
+					/>
+				))}
+			</div>
+		</section>
+	);
+
+	const popularMoviesSection = (
+		<section>
+			<h2 className={styles["section-header"]}>Popular movies</h2>
+			<div className={styles.cards}>
+				{popularMovies.map((movie) => (
+					<CardView
+						id={movie.id}
+						poster={movie.poster_path}
+						releaseDate={movie.release_date}
+						title={movie.title}
+						voteAverage={movie.vote_average}
+						key={movie.id}
+					/>
+				))}
+			</div>
+		</section>
+	);
+
+	const topRatedMoviesSection = (
+		<section>
+			<h2 className={styles["section-header"]}>Top rated movies</h2>
+			<div className={styles.cards}>
+				{topRatedMovies.map((movie) => (
+					<CardView
+						id={movie.id}
+						poster={movie.poster_path}
+						releaseDate={movie.release_date}
+						title={movie.title}
+						voteAverage={movie.vote_average}
+						key={movie.id}
+					/>
+				))}
+			</div>
+		</section>
+	);
+
+	const onChangeSelectedSection = (): void => {
+		if (section === "upcoming") {
+			setSelectedSection(upcomingMoviesSection);
+		}
+		if (section === "popular") {
+			setSelectedSection(popularMoviesSection);
+		}
+		if (section === "top_rated") {
+			setSelectedSection(topRatedMoviesSection);
+		}
+		if (section === "search") {
+			setSelectedSection(searchMoviesSection);
+		}
+	};
+
+	useEffect(() => {
+		onChangeSelectedSection();
+	}, [section, status]);
+
 	return (
-		<HomeView
-			upcomingMovies={upcomingMovies}
-			popularMovies={popularMovies}
-			topRatedMovies={topRatedMovies}
-			onEnteredText={onEnteredText}
-			searchedMovies={searchMovies}
-			isLoading={isLoading}
-			onSubmit={(event) => {
-				void (async () => {
-					await onSubmit(event);
-				})();
-			}}
-			onChangeSection={changeSectionHandler}
-			section={section}
-			status={status}
-		/>
+		<>
+			{status === "loading" && <p className={styles.message}>Loading...</p>}
+			{status === "error" && <p className={styles.error}>Something went wrong</p>}
+			{status === "ok" && (
+				<HomeView
+					popularMovies={popularMovies}
+					onEnteredText={onEnteredText}
+					searchedMovies={searchMovies}
+					selectedSection={selectedSection}
+					onSubmit={(event) => {
+						void (async () => {
+							await onSubmit(event);
+						})();
+					}}
+					onChangeSection={changeSectionHandler}
+					section={section}
+					status={status}
+				/>
+			)}
+		</>
 	);
 };
 
