@@ -5,8 +5,10 @@ import axios from "axios";
 
 import styles from "../views/Movie.module.css";
 
-import { Movie, MovieCredits, SimilarMovies } from "../helpers/types";
+import { Movie, MovieCredits } from "../helpers/types";
 import PersonCardView from "../views/PersonCard.view";
+// import CardView from "../views/Card.view";
+import CardsContainer from "./Cards.container";
 
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
@@ -14,7 +16,7 @@ const MovieContainer = (): ReactElement => {
 	const [isLoaded, setIsLoaded] = useState<Boolean>(false);
 	const [movie, setMovie] = useState<Movie>();
 	const [credits, setCredits] = useState<MovieCredits>();
-	const [similar, setSimilar] = useState<SimilarMovies>();
+	const [similar, setSimilar] = useState<Array<Partial<Movie>>>();
 	// const [images, setImages] = useState<Images>();
 
 	useEffect(() => {
@@ -47,7 +49,7 @@ const MovieContainer = (): ReactElement => {
 					}&language=en-US&page=1`,
 				);
 				if (similarResponse.status !== 200) throw new Error();
-				setSimilar(similarResponse.data);
+				setSimilar(similarResponse.data.results);
 
 				// const imagesResponse = await axios.get(
 				// 	`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${
@@ -70,30 +72,44 @@ const MovieContainer = (): ReactElement => {
 			<img src={`https://image.tmdb.org/t/p/w500${movie.poster_path as string}`} alt="" />
 		) : null;
 
-	const director: string =
-		credits?.crew.find((person) => person.job === "Director")?.name ?? "unknown";
+	const director: string = credits?.crew.find((person) => person.job === "Director")?.name ?? "N/A";
 
-	const writer: string =
-		credits?.crew
-			.filter((person) => person.department === "Writing" && person.job === "Story")
-			.map((person) => person.name)
-			.join(", ") ?? "unknown";
+	const writer = (): string => {
+		const result = credits?.crew.filter(
+			(person) =>
+				person.department === "Writing" && (person.job === "Writer" || person.job === "Story"),
+		);
+
+		if (result === undefined || result?.length === 0) return "N/A";
+		else return result.map((person) => person.name).join(", ") ?? "N/A";
+	};
+	// credits?.crew
+	// 	.filter((person) => person.department === "Writing" && person.job === "Writer")
+	// 	.map((person) => person.name)
+	// 	.join(", ") ?? "unknown";
 
 	const genres: string =
 		movie !== undefined
 			? Object.keys(movie?.genres)
 					.map((key: number | string) => movie.genres[key as number].name)
 					.join(", ")
-			: "";
+			: "N/A";
 
 	const production: string =
 		movie !== undefined
 			? Object.keys(movie?.production_countries)
 					.map((key: number | string) => movie.production_countries[key as number].name)
 					.join(", ")
-			: "";
+			: "N/A";
 
-	const release: string = movie?.release_date ?? "unknown";
+	const release: string = movie?.release_date ?? "N/A";
+
+	const overview = (
+		<div className={styles.overviewContainer}>
+			<h3>Overview:</h3>
+			<div className={styles.overview}>{movie?.overview}</div>
+		</div>
+	);
 
 	const header = (
 		<div className={styles.header}>
@@ -104,7 +120,7 @@ const MovieContainer = (): ReactElement => {
 					<div>Director</div>
 					<div>{director}</div>
 					<div>Writer</div>
-					<div>{writer}</div>
+					<div>{writer()}</div>
 					<div>Genre</div>
 					<div>{genres}</div>
 					<div>Production</div>
@@ -112,14 +128,8 @@ const MovieContainer = (): ReactElement => {
 					<div>Release</div>
 					<div>{release}</div>
 				</div>
+				{overview}
 			</div>
-		</div>
-	);
-
-	const overview = (
-		<div className={styles.overviewContainer}>
-			<h3>Overview:</h3>
-			<div className={styles.overview}>{movie?.overview}</div>
 		</div>
 	);
 
@@ -137,15 +147,19 @@ const MovieContainer = (): ReactElement => {
 	const suggestions = (
 		<div className={styles.suggestions}>
 			<h3>You may also like:</h3>
-			{similar?.results.map((suggestion) => (
-				<div key={suggestion.id}>
-					{suggestion.poster_path !== null ? (
-						<img src={`https://image.tmdb.org/t/p/w200${suggestion.poster_path}`} alt="" />
-					) : null}
-					<p>{suggestion.vote_average.toFixed(1)}</p>
-					<p>{suggestion.title}</p>
-				</div>
-			))}
+			<div className={styles.grid}>
+				<CardsContainer movies={similar ?? []} />
+			</div>
+			{/* // {similar?.results.map((suggestion) => (
+			// 	<CardView
+			// 		key={suggestion.id}
+			// 		id={suggestion.id}
+			// 		poster={suggestion.poster_path}
+			// 		title={suggestion.title}
+			// 		releaseDate={suggestion.release_date}
+			// 		voteAverage={suggestion.vote_average}
+			// 	/>
+			))} */}
 		</div>
 	);
 
