@@ -1,11 +1,14 @@
 .card {
 	position: relative;
 	overflow: hidden;
+	height: 30rem;
 	color: var(--font-color);
+	border-radius: var(--rounded);
 }
 
 .card-img {
 	width: 100%;
+	height: 100%;
 	border-radius: var(--rounded);
 	overflow: hidden;
 	transition: transform 0.3s;
@@ -33,4 +36,10 @@
 .card-body p {
 	opacity: 1;
 	margin-bottom: 0.5rem;
+}
+
+@media (min-width: 1280px) {
+	.card {
+		height: 45rem;
+	}
 }

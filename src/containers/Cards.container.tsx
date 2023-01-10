@@ -1,7 +1,7 @@
 import { Movie } from "../helpers/types";
 import { ReactElement } from "react";
 import CardView from "../views/Card.view";
-import replacementImage from "../assets/unknown-profile.png";
+import replacementImage from "../assets/question-solid.svg";
 
 const CardsContainer: React.FC<{ movies: Array<Partial<Movie>> }> = ({ movies }): ReactElement => {
 	if (movies === undefined) {
