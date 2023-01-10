@@ -22,6 +22,8 @@ const MovieContainer = (): ReactElement => {
 	useEffect(() => {
 		if (movieId === undefined) return;
 
+		window.scrollTo(0, 0);
+
 		void (async () => {
 			const { VITE_API_KEY } = import.meta.env;
 			if (VITE_API_KEY === undefined) throw new Error("No API key");
@@ -65,7 +67,7 @@ const MovieContainer = (): ReactElement => {
 				console.log(err);
 			}
 		})();
-	}, []);
+	}, [movieId]);
 
 	const image =
 		movie?.poster_path !== undefined ? (
