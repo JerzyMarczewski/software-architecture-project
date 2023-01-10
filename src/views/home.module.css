@@ -165,13 +165,27 @@
 
 @media (min-width: 1920px) {
 	.grid {
-		grid-template-columns: repeat(5, 1fr);
+		grid-template-columns: repeat(4, 1fr);
 	}
 
 	.header h1 {
 		font-size: 4.5rem;
 		left: 5rem;
 		margin-right: 5rem;
+	}
+}
+
+@media (min-width: 2300px) {
+	.grid {
+		grid-template-columns: repeat(5, 1fr);
+	}
+}
+
+@media (min-width: 2560px) {
+	.container {
+		max-width: 2560px;
+		width: 100%;
+		margin: 0 auto;
 	}
 }
 
