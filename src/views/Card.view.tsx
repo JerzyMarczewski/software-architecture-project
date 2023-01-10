@@ -12,7 +12,7 @@ const CardView: React.FC<{
 	return (
 		<Link to={`/movies/${id}`}>
 			<div className={styles.card}>
-				<img className={styles["card-img"]} src={`https://image.tmdb.org/t/p/w300${poster}`} />
+				<img className={styles["card-img"]} src={poster} />
 				<div className={styles["card-body"]}>
 					<h3>{title}</h3>
 					<p>{releaseDate.slice(0, 4)}</p>

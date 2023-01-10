@@ -1,15 +1,15 @@
 import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from "react";
 import HomeView from "../views/Home.view";
 import axios from "axios";
-import { UpcomingMovie, Section, Status } from "../helpers/types";
+import { Movie, Section, Status } from "../helpers/types";
 import styles from "../views/home.module.css";
-import CardView from "../views/Card.view";
+import CardsContainer from "./Cards.container";
 
 const HomeContainer = (): ReactElement => {
-	const [upcomingMovies, setUpcomingMovies] = useState<UpcomingMovie[]>([]);
-	const [popularMovies, setPopularMovies] = useState<UpcomingMovie[]>([]);
-	const [topRatedMovies, setTopRatedMovies] = useState<UpcomingMovie[]>([]);
-	const [searchMovies, setSearchMovies] = useState<UpcomingMovie[]>([]);
+	const [upcomingMovies, setUpcomingMovies] = useState<Array<Partial<Movie>>>([]);
+	const [popularMovies, setPopularMovies] = useState<Array<Partial<Movie>>>([]);
+	const [topRatedMovies, setTopRatedMovies] = useState<Array<Partial<Movie>>>([]);
+	const [searchMovies, setSearchMovies] = useState<Array<Partial<Movie>>>([]);
 	const [enteredText, setEnteredText] = useState("");
 	const [section, setSection] = useState<Section>("upcoming");
 	const [status, setStatus] = useState<Status>("loading");
@@ -102,16 +102,7 @@ const HomeContainer = (): ReactElement => {
 		<section>
 			<h2 className={styles["section-header"]}>Upcoming movies</h2>
 			<div className={styles.grid}>
-				{upcomingMovies.map((movie) => (
-					<CardView
-						id={movie.id}
-						poster={movie.poster_path}
-						releaseDate={movie.release_date}
-						title={movie.title}
-						voteAverage={movie.vote_average}
-						key={movie.id}
-					/>
-				))}
+				<CardsContainer movies={upcomingMovies} />
 			</div>
 		</section>
 	);
@@ -120,16 +111,7 @@ const HomeContainer = (): ReactElement => {
 		<section>
 			<h2 className={styles["section-header"]}>Search movies</h2>
 			<div className={styles.grid}>
-				{searchMovies.map((movie) => (
-					<CardView
-						id={movie.id}
-						poster={movie.poster_path}
-						releaseDate={movie.release_date}
-						title={movie.title}
-						voteAverage={movie.vote_average}
-						key={movie.id}
-					/>
-				))}
+				<CardsContainer movies={searchMovies} />
 			</div>
 		</section>
 	);
@@ -138,16 +120,7 @@ const HomeContainer = (): ReactElement => {
 		<section>
 			<h2 className={styles["section-header"]}>Popular movies</h2>
 			<div className={styles.grid}>
-				{popularMovies.map((movie) => (
-					<CardView
-						id={movie.id}
-						poster={movie.poster_path}
-						releaseDate={movie.release_date}
-						title={movie.title}
-						voteAverage={movie.vote_average}
-						key={movie.id}
-					/>
-				))}
+				<CardsContainer movies={popularMovies} />
 			</div>
 		</section>
 	);
@@ -156,16 +129,7 @@ const HomeContainer = (): ReactElement => {
 		<section>
 			<h2 className={styles["section-header"]}>Top rated movies</h2>
 			<div className={styles.grid}>
-				{topRatedMovies.map((movie) => (
-					<CardView
-						id={movie.id}
-						poster={movie.poster_path}
-						releaseDate={movie.release_date}
-						title={movie.title}
-						voteAverage={movie.vote_average}
-						key={movie.id}
-					/>
-				))}
+				<CardsContainer movies={topRatedMovies} />
 			</div>
 		</section>
 	);

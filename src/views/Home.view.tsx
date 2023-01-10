@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, ReactElement } from "react";
-import { Section, Status, UpcomingMovie } from "../helpers/types";
+import { Movie, Section, Status } from "../helpers/types";
 import styles from "./home.module.css";
 import arrow from "../assets/arrow-down-solid.svg";
 
@@ -11,11 +11,11 @@ export const MOVIE_DB_IMAGE_URL = {
 };
 
 const HomeView: React.FC<{
-	popularMovies: UpcomingMovie[];
+	popularMovies: Array<Partial<Movie>>;
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 	onEnteredText: (event: ChangeEvent<HTMLInputElement>) => void;
 	onChangeSection: (section: Section) => void;
-	searchedMovies: UpcomingMovie[];
+	searchedMovies: Array<Partial<Movie>>;
 	section: Section;
 	status: Status;
 	selectedSection: JSX.Element | undefined;
@@ -44,7 +44,7 @@ const HomeView: React.FC<{
 				</div>
 				<img
 					className={styles["hero-image"]}
-					src={`https://image.tmdb.org/t/p/original${popularMovies[0].backdrop_path}`}
+					src={`https://image.tmdb.org/t/p/original${popularMovies[0]?.backdrop_path ?? ""}`}
 				/>
 				<div className={styles.backdrop}></div>
 
