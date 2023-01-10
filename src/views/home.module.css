@@ -17,12 +17,13 @@
 	bottom: 2rem;
 	left: 50%;
 	transform: translateX(50%);
-	z-index: 2;
+	z-index: 3;
 	color: var(--background-color);
 	animation: slide infinite 1s;
 }
 
-.header div:first-child {
+.hero-container {
+	width: 100%;
 	color: var(--font-color);
 	position: absolute;
 	top: 65%;
@@ -35,12 +36,6 @@
 	display: none;
 }
 
-.backdrop {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-}
-
 .grid {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -49,7 +44,7 @@
 
 .hero-image {
 	max-width: 100%;
-	object-fit: fill;
+	object-fit: cover;
 	object-position: center;
 }
 

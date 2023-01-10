@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, ReactElement } from "react";
-import { Movie, Section, Status } from "../helpers/types";
+import { Section, Status, heroImage } from "../helpers/types";
 import styles from "./home.module.css";
 import arrow from "../assets/arrow-down-solid.svg";
 
@@ -11,21 +11,20 @@ export const MOVIE_DB_IMAGE_URL = {
 };
 
 const HomeView: React.FC<{
-	popularMovies: Array<Partial<Movie>>;
+	heroImage: heroImage;
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 	onEnteredText: (event: ChangeEvent<HTMLInputElement>) => void;
 	onChangeSection: (section: Section) => void;
-	searchedMovies: Array<Partial<Movie>>;
 	section: Section;
 	status: Status;
 	selectedSection: JSX.Element | undefined;
 }> = ({
-	popularMovies,
 	status,
 	onSubmit,
 	onEnteredText,
 	onChangeSection,
 	selectedSection,
+	heroImage,
 }): ReactElement => {
 	if (status === "loading") {
 		return <div className={styles.message}>Loading...</div>;
@@ -38,16 +37,14 @@ const HomeView: React.FC<{
 	return (
 		<div className={styles.container}>
 			<header className={styles.header}>
-				<div>
+				<div className={styles["hero-container"]}>
 					<h1>Let&apos;s find your movie or tv series</h1>
-					<h2>{popularMovies[0].title}</h2>
+					<h2>{heroImage.title}</h2>
 				</div>
 				<img
 					className={styles["hero-image"]}
-					src={`https://image.tmdb.org/t/p/original${popularMovies[0]?.backdrop_path ?? ""}`}
+					src={`https://image.tmdb.org/t/p/original${heroImage.backdropPath}`}
 				/>
-				<div className={styles.backdrop}></div>
-
 				<div className={styles["arrow-down"]}>
 					<img src={arrow} alt="Arrow down" />
 				</div>
