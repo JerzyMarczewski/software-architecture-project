@@ -63,7 +63,7 @@
   .header {
     flex-direction: row;
     align-items: center;
-    margin: 0 10%;
+    margin: 0;
   }
 
   .header > img {
@@ -85,5 +85,54 @@
   }
   .cast > *:nth-child(2n+1) {
     justify-self: self-end;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .header {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .header > .infoAndTitle {
+    margin: 0;
+    padding: 0 0 0 20px;
+    width: 50%;
+  }
+
+  .header > .infoAndTitle > h1 {
+    margin: 0 0 20px;
+    font-size: 5rem;
+  }
+
+  .header .infoContainer {
+    font-size: 1.5rem;
+  }
+
+  .overviewContainer {
+    margin: 20px 0;
+    max-width: 1200px;
+  }
+
+  .overviewContainer > h3 {
+    font-size: 2rem;
+  }
+
+  .overviewContainer > div {
+    font-size: 1.5rem;
+  }
+
+
+  .castContainer {
+    margin: 20px 0;
+    max-width: 1200px;
+  }
+  
+  .cast {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .castContainer > h3 {
+    font-size: 2rem;
   }
 }
