@@ -48,8 +48,8 @@ const HomeView: React.FC<{
 				/>
 				<div className={styles.backdrop}></div>
 
-				<div className={styles.scroll}>
-					<img src={arrow} alt="Scroll down" />
+				<div className={styles["arrow-down"]}>
+					<img src={arrow} alt="Arrow down" />
 				</div>
 			</header>
 			<form onSubmit={onSubmit} className={styles.form}>
@@ -59,7 +59,7 @@ const HomeView: React.FC<{
 					placeholder="Search..."
 					className={styles.input}
 				/>
-				<button type="submit" className={styles.button}>
+				<button type="submit" className={styles["submit-button"]}>
 					Search
 				</button>
 			</form>

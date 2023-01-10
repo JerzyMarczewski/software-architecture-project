@@ -101,7 +101,7 @@ const HomeContainer = (): ReactElement => {
 	const upcomingMoviesSection = (
 		<section>
 			<h2 className={styles["section-header"]}>Upcoming movies</h2>
-			<div className={styles.cards}>
+			<div className={styles.grid}>
 				{upcomingMovies.map((movie) => (
 					<CardView
 						id={movie.id}
@@ -119,7 +119,7 @@ const HomeContainer = (): ReactElement => {
 	const searchMoviesSection = (
 		<section>
 			<h2 className={styles["section-header"]}>Search movies</h2>
-			<div className={styles.cards}>
+			<div className={styles.grid}>
 				{searchMovies.map((movie) => (
 					<CardView
 						id={movie.id}
@@ -137,7 +137,7 @@ const HomeContainer = (): ReactElement => {
 	const popularMoviesSection = (
 		<section>
 			<h2 className={styles["section-header"]}>Popular movies</h2>
-			<div className={styles.cards}>
+			<div className={styles.grid}>
 				{popularMovies.map((movie) => (
 					<CardView
 						id={movie.id}
@@ -155,7 +155,7 @@ const HomeContainer = (): ReactElement => {
 	const topRatedMoviesSection = (
 		<section>
 			<h2 className={styles["section-header"]}>Top rated movies</h2>
-			<div className={styles.cards}>
+			<div className={styles.grid}>
 				{topRatedMovies.map((movie) => (
 					<CardView
 						id={movie.id}
