@@ -18,6 +18,7 @@ const MovieContainer = (): ReactElement => {
 	const [credits, setCredits] = useState<MovieCredits>();
 	const [similar, setSimilar] = useState<Array<Partial<Movie>>>();
 	// const [images, setImages] = useState<Images>();
+	const [showFullCast, setShowFullCast] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (movieId === undefined) return;
@@ -139,10 +140,20 @@ const MovieContainer = (): ReactElement => {
 		<div className={styles.castContainer}>
 			<h3>Cast:</h3>
 			<div className={styles.cast}>
-				{credits?.cast.map((person) => (
-					<PersonCardView key={person.cast_id} person={person} />
-				))}
+				{showFullCast
+					? credits?.cast.map((person) => <PersonCardView key={person.cast_id} person={person} />)
+					: credits?.cast
+							.slice(0, 6)
+							.map((person) => <PersonCardView key={person.cast_id} person={person} />)}
 			</div>
+			<p
+				className={styles.showMoreCast}
+				onClick={() => {
+					setShowFullCast(!showFullCast);
+				}}
+			>
+				{showFullCast ? "show less" : "show more"}
+			</p>
 		</div>
 	);
 
