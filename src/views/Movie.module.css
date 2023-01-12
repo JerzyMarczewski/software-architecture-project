@@ -162,4 +162,25 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
+
+  .suggestions .grid > a {
+    height: auto;
+  }
+
+  .suggestions .grid > a > div {
+    min-height: 300px;
+    height: auto;
+  }
+
+  .suggestions .grid img {
+    height: auto;
+  }
+
+  .suggestions .grid h3 {
+    font-size: 1rem;
+  }
+
+  .suggestions .grid p {
+    font-size: 0.75rem;
+  }
 }
