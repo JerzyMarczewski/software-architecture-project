@@ -63,12 +63,13 @@
   justify-self: center;
 }
 
-.showMoreCast {
+.showMore {
+  margin: 20px 0;
   text-align: center;
   cursor: pointer;
 }
 
-.showMoreCast:hover {
+.showMore:hover {
   text-decoration: underline;
 }
 
@@ -103,6 +104,25 @@
 
   .cast {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .suggestions{
+    width: 800px;
+  }
+
+  .suggestions .grid {
+  }
+
+  .suggestions .grid > a {
+    width: 300px;
+    height: auto;
+    justify-self: center;
+  }
+
+  .suggestions .grid img {
+    height: auto;
   }
 }
 
@@ -154,8 +174,13 @@
     grid-template-columns: 1fr 1fr 1fr;
   }
 
-  .castContainer > h3 {
+  .castContainer > h3, .suggestions h3 {
     font-size: 2rem;
+  }
+
+  .suggestions {
+    width: 1200px;
+    max-width: 1200px;
   }
 
   .suggestions .grid{
@@ -165,6 +190,7 @@
 
   .suggestions .grid > a {
     height: auto;
+    width: 270px;
   }
 
   .suggestions .grid > a > div {
@@ -182,5 +208,11 @@
 
   .suggestions .grid p {
     font-size: 0.75rem;
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  .suggestions .grid{
+    grid-template-columns: 1fr 1fr 1fr 1fr ;
   }
 }
