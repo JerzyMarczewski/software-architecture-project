@@ -31,7 +31,7 @@ export interface Movie {
 	vote_count: number;
 }
 
-export interface Actor {
+export interface Person {
 	birthday: string | null;
 	known_for_department: string;
 	deathday: null | string;

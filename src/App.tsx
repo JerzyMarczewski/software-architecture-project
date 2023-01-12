@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import ActorContainer from "./containers/Actor.container";
+import PersonContainer from "./containers/Person.container";
 import HomeContainer from "./containers/Home.container";
 import MovieContainer from "./containers/Movie.container";
 import AuthenticationContainer from "./containers/Authentication.container";
@@ -15,7 +15,7 @@ function App(): ReactElement {
 				<Routes>
 					<Route path="/" element={<HomeContainer />} />
 					<Route path="/movies/:movieId" element={<MovieContainer />} />
-					<Route path="/actors/:actorId" element={<ActorContainer />} />
+					<Route path="/actors/:personId" element={<PersonContainer />} />
 					<Route path="/sign-in" element={<AuthenticationContainer />} />
 					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
