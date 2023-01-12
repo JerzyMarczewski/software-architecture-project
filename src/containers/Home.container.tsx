@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from "react";
 import HomeView from "../views/Home.view";
 import axios from "axios";
-import { Movie, Section, Status } from "../helpers/types";
+import { Movie, Section, Status, heroImage } from "../helpers/types";
 import styles from "../views/home.module.css";
 import CardsContainer from "./Cards.container";
 
@@ -14,6 +14,10 @@ const HomeContainer = (): ReactElement => {
 	const [section, setSection] = useState<Section>("upcoming");
 	const [status, setStatus] = useState<Status>("loading");
 	const [selectedSection, setSelectedSection] = useState<JSX.Element>();
+	const [heroImage, setHeroImage] = useState<heroImage>({
+		title: "",
+		backdropPath: "",
+	});
 
 	const getUpcomingMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
@@ -90,6 +94,17 @@ const HomeContainer = (): ReactElement => {
 		setSection(sectionName);
 	};
 
+	const onHeroImage = (): void => {
+		const filteredMovies = popularMovies.filter((movie) => movie.backdrop_path);
+
+		const randomIndex = Math.floor(Math.random() * filteredMovies.length);
+
+		setHeroImage({
+			title: filteredMovies.at(randomIndex)?.title ?? "",
+			backdropPath: filteredMovies.at(randomIndex)?.backdrop_path ?? "",
+		});
+	};
+
 	useEffect(() => {
 		void (async () => {
 			await getUpcomingMovies("popular");
@@ -97,6 +112,10 @@ const HomeContainer = (): ReactElement => {
 			await getUpcomingMovies("top_rated");
 		})();
 	}, []);
+
+	useEffect(() => {
+		onHeroImage();
+	}, [popularMovies]);
 
 	const upcomingMoviesSection = (
 		<section>
@@ -159,9 +178,8 @@ const HomeContainer = (): ReactElement => {
 			{status === "error" && <p className={styles.error}>Something went wrong</p>}
 			{status === "ok" && (
 				<HomeView
-					popularMovies={popularMovies}
+					heroImage={heroImage}
 					onEnteredText={onEnteredText}
-					searchedMovies={searchMovies}
 					selectedSection={selectedSection}
 					onSubmit={(event) => {
 						void (async () => {

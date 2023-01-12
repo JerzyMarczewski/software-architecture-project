@@ -17,12 +17,13 @@
 	bottom: 2rem;
 	left: 50%;
 	transform: translateX(50%);
-	z-index: 2;
+	z-index: 3;
 	color: var(--background-color);
 	animation: slide infinite 1s;
 }
 
-.header div:first-child {
+.hero-container {
+	width: 100%;
 	color: var(--font-color);
 	position: absolute;
 	top: 65%;
@@ -35,12 +36,6 @@
 	display: none;
 }
 
-.backdrop {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-}
-
 .grid {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -49,7 +44,7 @@
 
 .hero-image {
 	max-width: 100%;
-	object-fit: fill;
+	object-fit: cover;
 	object-position: center;
 }
 
@@ -128,11 +123,13 @@
 	min-height: 100vh;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
 	.grid {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: repeat(2, 1fr);
 	}
+}
 
+@media (min-width: 768px) {
 	.header h1 {
 		font-size: 2.7rem;
 	}
@@ -144,11 +141,13 @@
 	}
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1000px) {
 	.grid {
 		grid-template-columns: repeat(3, 1fr);
 	}
+}
 
+@media (min-width: 1280px) {
 	.header h1 {
 		font-size: 3rem;
 		left: 5rem;
@@ -163,11 +162,13 @@
 	}
 }
 
-@media (min-width: 1920px) {
+@media (min-width: 1700px) {
 	.grid {
 		grid-template-columns: repeat(4, 1fr);
 	}
+}
 
+@media (min-width: 1920px) {
 	.header h1 {
 		font-size: 4.5rem;
 		left: 5rem;

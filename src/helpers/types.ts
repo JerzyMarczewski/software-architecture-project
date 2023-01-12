@@ -130,3 +130,8 @@ export interface Images {
 export type Section = "top_rated" | "popular" | "upcoming" | "search";
 
 export type Status = "loading" | "error" | "ok";
+
+export interface heroImage {
+	title: string;
+	backdropPath: string;
+}
