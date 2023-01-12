@@ -21,6 +21,7 @@ const MovieContainer = (): ReactElement => {
 	const [similar, setSimilar] = useState<Array<Partial<Movie>>>();
 	// const [images, setImages] = useState<Images>();
 	const [showFullCast, setShowFullCast] = useState<boolean>(false);
+	const [showFullSuggestions, setShowFullSuggestions] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (movieId === undefined) return;
@@ -149,7 +150,7 @@ const MovieContainer = (): ReactElement => {
 							.map((person) => <PersonCardView key={person.cast_id} person={person} />)}
 			</div>
 			<p
-				className={styles.showMoreCast}
+				className={styles.showMore}
 				onClick={() => {
 					setShowFullCast(!showFullCast);
 				}}
@@ -163,7 +164,7 @@ const MovieContainer = (): ReactElement => {
 		<div className={styles.suggestions}>
 			<h3>You may also like:</h3>
 			<div className={styles.grid}>
-				{similar?.map((movie) => {
+				{similar?.slice(0, showFullSuggestions ? -2 : 4).map((movie) => {
 					if (movie === undefined || movie.id === undefined) return null;
 
 					let poster;
@@ -183,16 +184,14 @@ const MovieContainer = (): ReactElement => {
 					);
 				})}
 			</div>
-			{/* // {similar?.results.map((suggestion) => (
-			// 	<CardView
-			// 		key={suggestion.id}
-			// 		id={suggestion.id}
-			// 		poster={suggestion.poster_path}
-			// 		title={suggestion.title}
-			// 		releaseDate={suggestion.release_date}
-			// 		voteAverage={suggestion.vote_average}
-			// 	/>
-			))} */}
+			<p
+				className={styles.showMore} // change
+				onClick={() => {
+					setShowFullSuggestions(!showFullSuggestions);
+				}}
+			>
+				{showFullSuggestions ? "show less" : "show more"}
+			</p>
 		</div>
 	);
 
