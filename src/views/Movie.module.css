@@ -45,7 +45,7 @@
 .castContainer,
 .suggestions {
   margin: 20px 10%;
-  width: 100%;
+  width: 80%;
   max-width: 800px;
 }
 
@@ -80,6 +80,11 @@
 	gap: 1rem;
 }
 
+.suggestions .grid > a {
+  max-width: 300px;
+  justify-self: center;
+}
+
 @media only screen and (min-width: 768px){
   .header {
     flex-direction: row;
@@ -101,7 +106,7 @@
   .castContainer,
   .suggestions {
     margin: 20px 10%;
-    width: 100%;
+    width: 80%;
   }
 
   .cast {
@@ -110,6 +115,10 @@
 
   .suggestions .grid{
     grid-template-columns: 1fr 1fr;
+  }
+
+  .suggestions .grid > a {
+    max-width: none;
   }
 }
 
@@ -127,6 +136,12 @@
   .suggestions .grid img {
     height: auto;
   }
+}
+
+@media (min-width: 1280px) {
+	.suggestions .grid > a > div {
+    height: auto;
+	}
 }
 
 @media only screen and (min-width: 1440px) {
