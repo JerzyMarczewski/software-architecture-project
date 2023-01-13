@@ -27,6 +27,8 @@ const MovieContainer = (): ReactElement => {
 		if (movieId === undefined) return;
 
 		window.scrollTo(0, 0);
+		setShowFullCast(false);
+		setShowFullSuggestions(false);
 
 		void (async () => {
 			const { VITE_API_KEY } = import.meta.env;
