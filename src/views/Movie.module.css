@@ -44,7 +44,8 @@
 .overviewContainer,
 .castContainer,
 .suggestions {
-  margin: 20px;
+  margin: 20px 10%;
+  width: 100%;
   max-width: 800px;
 }
 
@@ -75,7 +76,7 @@
 
 .suggestions .grid{
   display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr;
 	gap: 1rem;
 }
 
@@ -100,9 +101,14 @@
   .castContainer,
   .suggestions {
     margin: 20px 10%;
+    width: 100%;
   }
 
   .cast {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .suggestions .grid{
     grid-template-columns: 1fr 1fr;
   }
 }
