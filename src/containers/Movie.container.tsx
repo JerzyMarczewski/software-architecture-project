@@ -15,7 +15,7 @@ import questionImage from "../assets/question-solid.svg";
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
 
-	const [isLoaded, setIsLoaded] = useState<Boolean>(false);
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [movie, setMovie] = useState<Movie>();
 	const [credits, setCredits] = useState<MovieCredits>();
 	const [similar, setSimilar] = useState<Array<Partial<Movie>>>();
@@ -27,6 +27,7 @@ const MovieContainer = (): ReactElement => {
 		if (movieId === undefined) return;
 
 		window.scrollTo(0, 0);
+		setIsLoaded(false);
 		setShowFullCast(false);
 		setShowFullSuggestions(false);
 
