@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header > img {
+  width: 100%;
+  height: auto;
+}
+
+.header > .infoAndTitle > h1 {
+  font-size: 2.75rem;
+}
+
+.header > .infoAndTitle > .infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.header > .infoAndTitle > h1,
+.header > .infoAndTitle > .infoGrid {
+  margin: 30px 10%;
+}
+
+.infoGrid > * {
+  border-bottom: 1px solid #fff;
+}
+
+@media only screen and (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+  }
+}
