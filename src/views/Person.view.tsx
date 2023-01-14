@@ -1,10 +1,22 @@
 import { ReactElement } from "react";
-import { Person } from "../helpers/types";
 
-const PersonView: React.FC<{ actor: Person | undefined }> = ({ actor }): ReactElement => {
-	if (actor === undefined) return <div>Loading...</div>;
+import styles from "./Person.module.css";
 
-	return <div>Movie id: {actor.name}</div>;
+const PersonView: React.FC<{
+	isLoaded: boolean;
+	header: JSX.Element;
+	biography: JSX.Element;
+	credits: JSX.Element;
+}> = ({ isLoaded, header, biography, credits }): ReactElement => {
+	if (!isLoaded) return <div>Loading...</div>;
+
+	return (
+		<div className={styles.personView}>
+			{header}
+			{biography}
+			{credits}
+		</div>
+	);
 };
 
 export default PersonView;

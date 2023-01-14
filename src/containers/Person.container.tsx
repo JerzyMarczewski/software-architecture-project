@@ -2,39 +2,50 @@ import { ReactElement, useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 
-import { Person } from "../helpers/types";
-// import PersonView from "../views/Person.view";
+import { Person, PersonMovieCredits } from "../helpers/types";
+import PersonView from "../views/Person.view";
 import styles from "../views/Person.module.css";
 import unknownProfileImage from "../assets/unknown-profile.png";
+import unknownMovieImage from "../assets/question-solid.svg";
+import { Link } from "react-router-dom";
 
 const MovieContainer = (): ReactElement => {
 	const { personId } = useParams();
 
 	const [person, setPerson] = useState<Person>();
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
+	const [personMovieCredits, setPersonMovieCredits] = useState<PersonMovieCredits>();
+	const [showMoreBiography, setShowMoreBiography] = useState<boolean>(false);
+	const [showAllCredits, setShowAllCredits] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (personId === undefined) return;
 
+		setIsLoaded(false);
+		setShowMoreBiography(false);
+		setShowAllCredits(false);
+
 		void (async () => {
 			try {
-				const response = await axios.get(
+				const personResponse = await axios.get(
 					`https://api.themoviedb.org/3/person/${personId}?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US`,
 				);
-				if (response.status !== 200) throw new Error();
+				if (personResponse.status !== 200) throw new Error();
+				setPerson(personResponse.data);
 
-				setPerson(response.data);
+				const creditsResponse = await axios.get(
+					`https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=c84516f8b4384b587d79549a2ae95883&language=en-US`,
+				);
+				if (creditsResponse.status !== 200) throw new Error();
+
+				setPersonMovieCredits(creditsResponse.data);
+
+				setIsLoaded(true);
 			} catch (err) {
 				console.log(err);
 			}
 		})();
-	}, []);
-
-	// const image =
-	// 	person?.profile_path !== undefined ? (
-	// 		<img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt="profile image" />
-	// 	) : (
-	// 		<img src={unknownProfileImage} alt="profile image not found" />
-	// 	);
+	}, [personId]);
 
 	const getImage = (): JSX.Element => {
 		if (person === undefined)
@@ -45,6 +56,13 @@ const MovieContainer = (): ReactElement => {
 		return (
 			<img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt="profile image" />
 		);
+	};
+
+	const getCreditImage = (path: string | null): JSX.Element => {
+		if (path === undefined) return <img src={unknownMovieImage} alt="credit image not found" />;
+		else if (path === null) return <img src={unknownMovieImage} alt="credit image not found" />;
+
+		return <img src={`https://image.tmdb.org/t/p/w200${path}`} alt="credit image" />;
 	};
 
 	const header = (
@@ -69,12 +87,50 @@ const MovieContainer = (): ReactElement => {
 	const biography = (
 		<div className={styles.biography}>
 			<h1>Biography:</h1>
-			<p>{person?.biography}</p>
+			<p>
+				{person?.biography.slice(0, showMoreBiography ? -2 : 200)}
+				<span
+					onClick={() => {
+						setShowMoreBiography(!showMoreBiography);
+					}}
+				>
+					{showMoreBiography ? null : "...more"}
+				</span>
+			</p>
 		</div>
 	);
 
-	return header;
-	// return <ActorView actor={person} />;
+	const credits = (
+		<div className={styles.credits}>
+			<h1>Credits:</h1>
+			<div className={styles.creditList}>
+				{personMovieCredits?.cast
+					.sort((a, b) => Number(b.release_date.slice(0, 4)) - Number(a.release_date.slice(0, 4)))
+					.slice(0, showAllCredits ? -2 : 5)
+					.map((credit) => (
+						<Link key={credit.credit_id} to={`/movies/${credit.id}`}>
+							{getCreditImage(credit?.poster_path)}
+							<div className={styles.titleAndRole}>
+								<h5>{credit.title !== "" ? credit.title : "N/A"}</h5>
+								<p>{credit.character !== "" ? credit.character : "N/A"}</p>
+							</div>
+							<div className={styles.whitespace}></div>
+							<div className={styles.year}>{credit.release_date.slice(0, 4)}</div>
+						</Link>
+					))}
+			</div>
+			<p
+				className={styles.showAll}
+				onClick={() => {
+					setShowAllCredits(!showAllCredits);
+				}}
+			>
+				{showAllCredits ? "show less" : "show all"}
+			</p>
+		</div>
+	);
+
+	return <PersonView isLoaded={isLoaded} header={header} biography={biography} credits={credits} />;
 };
 
 export default MovieContainer;
