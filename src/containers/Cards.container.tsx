@@ -26,7 +26,7 @@ const CardsContainer: React.FC<{ movies: Array<Partial<Movie>> }> = ({ movies })
 						poster={poster}
 						releaseDate={movie?.release_date ?? ""}
 						title={movie?.title ?? ""}
-						voteAverage={movie?.vote_average ?? 0}
+						voteAverage={+(movie?.vote_average?.toFixed(1) ?? "")}
 						key={movie?.id}
 						// eslint-disable-next-line @typescript-eslint/no-misused-promises
 						onAddFavorite={addToFavoritesHandler}
