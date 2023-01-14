@@ -1,8 +1,22 @@
+a:link,a:visited,a:hover,a:active  {
+  color: inherit;
+  text-decoration: none;
+}
+
+.personView {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .header {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+
+  width: 100%;
 }
 
 .header > img {
@@ -12,6 +26,7 @@
 
 .header > .infoAndTitle > h1 {
   font-size: 2.75rem;
+  margin: 20px 0;
 }
 
 .header > .infoAndTitle > .infoGrid {
@@ -19,13 +34,65 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.header > .infoAndTitle > h1,
-.header > .infoAndTitle > .infoGrid {
-  margin: 30px 10%;
+.header > .infoAndTitle, 
+.biography,
+.credits {
+  margin: 0 0 50px;
+  width: 80%;
 }
 
-.infoGrid > * {
+.header > .infoAndTitle > .infoGrid > * {
   border-bottom: 1px solid #fff;
+}
+
+.biography > h1, 
+.credits > h1 {
+  margin: 15px 0;
+}
+
+.biography > p > span {
+  color: yellow;
+}
+
+.credits > .creditList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.credits > .creditList > a {
+  padding: 0 0 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #fff;
+  cursor: pointer;
+}
+
+.credits > .creditList > a > img {
+  width: 75px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.credits > .creditList > a > .titleAndRole {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.credits > .creditList > a > .whitespace {
+  margin-right: auto;
+}
+
+.showAll {
+  margin: 20px 0;
+  color: yellow;
+  text-align: center;
+  cursor: pointer;
+
 }
 
 @media only screen and (min-width: 768px) {
@@ -33,6 +100,69 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 20px;
+    gap: 40px;
+
+    width: 80%;
+  }
+
+  .header > img {
+    width: 40%;
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .header > .infoAndTitle > h1 {
+    font-size: 4rem;
+    margin: 20px 0;
+  }
+
+  .header > .infoAndTitle > .infoGrid > h3 {
+    font-size: 1.75rem;
+  }
+
+  .header > .infoAndTitle > .infoGrid > p {
+    font-size: 1.5rem;
+  }
+
+  .biography > h1, 
+  .credits > h1 {
+    font-size: 2.5rem;
+    margin: 40px 0;
+  }
+
+  .biography > p, .showAll  {
+    font-size: 1.5rem;
+  }
+
+  .credits > .creditList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .credits > .creditList > a {
+    padding: 0 0 15px;
+    gap: 30px;
+  }
+  
+  .credits > .creditList > a > img {
+    width: 150px;
+  }
+  
+  .credits > .creditList > a > .titleAndRole {
+    gap: 10px;
+  }
+  
+  .credits > .creditList > a > .titleAndRole > h5 {
+    font-size: 2rem;
+  }
+
+  .credits > .creditList > a > .titleAndRole > p {
+    font-size: 1.25rem;
+  }
+  
+  .credits > .creditList > a > .year {
+    font-size: 1.75rem;
   }
 }
