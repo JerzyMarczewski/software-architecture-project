@@ -11,6 +11,7 @@ import PersonCardView from "../views/PersonCard.view";
 // import CardsContainer from "./Cards.container";
 import CardView from "../views/Card.view";
 import questionImage from "../assets/question-solid.svg";
+import { addToFavoritesHandler } from "../utils/utils";
 
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
@@ -183,6 +184,8 @@ const MovieContainer = (): ReactElement => {
 							title={movie.title ?? "N/A"}
 							releaseDate={movie.release_date ?? "N/A"}
 							voteAverage={movie.vote_average ?? 0}
+							// eslint-disable-next-line @typescript-eslint/no-misused-promises
+							onAddFavorite={addToFavoritesHandler}
 						/>
 					);
 				})}
