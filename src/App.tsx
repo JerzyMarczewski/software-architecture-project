@@ -16,7 +16,7 @@ function App(): ReactElement {
 				<Routes>
 					<Route path="/" element={<HomeContainer />} />
 					<Route path="/movies/:movieId" element={<MovieContainer />} />
-					<Route path="/actors/:personId" element={<PersonContainer />} />
+					<Route path="/people/:personId" element={<PersonContainer />} />
 					<Route path="/sign-in" element={<AuthenticationContainer />} />
 					<Route path="/favorite" element={<FavoriteMoviesContainer />} />
 					<Route path="*" element={<Navigate to="/" />} />

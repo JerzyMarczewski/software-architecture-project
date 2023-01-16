@@ -8,7 +8,7 @@ const PersonCardView: React.FC<{
 	person: CastMember;
 }> = ({ person }): ReactElement => {
 	return (
-		<Link to={`/actors/${person.id}`} className={styles.personCard}>
+		<Link to={`/people/${person.id}`} className={styles.personCard}>
 			{person.profile_path !== null ? (
 				<img src={`https://image.tmdb.org/t/p/w200${person.profile_path}`} alt="profile photo" />
 			) : (
