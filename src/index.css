@@ -31,3 +31,23 @@ body {
 	width: 100%;
 	overflow-x: hidden;
 }
+
+.message {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-top: 3rem;
+}
+
+.error {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+
+.red-bg {
+	background-color: red;
+}

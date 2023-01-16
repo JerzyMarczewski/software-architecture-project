@@ -5,6 +5,7 @@ import { AuthResponse } from "@supabase/supabase-js";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../context/auth-context";
 import RegisterView from "../views/Register.view";
+import { FavoriteMoviesContext } from "../context/favorite-movies-context";
 
 const AuthenticationContainer = (): ReactElement => {
 	const navigate = useNavigate();
@@ -14,6 +15,7 @@ const AuthenticationContainer = (): ReactElement => {
 	const [isRegister, setIsRegister] = useState(true);
 	const [errorMessage, setErrorMessage] = useState("");
 	const { getSession } = useContext(AuthContext);
+	const { refetch } = useContext(FavoriteMoviesContext);
 
 	const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
@@ -69,6 +71,7 @@ const AuthenticationContainer = (): ReactElement => {
 				}
 			}
 
+			refetch();
 			getSession();
 			navigate("/");
 		} catch (error) {

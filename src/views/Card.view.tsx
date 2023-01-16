@@ -9,6 +9,7 @@ const CardView: React.FC<{
 	title: string;
 	releaseDate: string;
 	voteAverage: number;
+	classes: string;
 	onAddFavorite: (
 		id: number,
 		poster: string,
@@ -16,7 +17,7 @@ const CardView: React.FC<{
 		title: string,
 		voteAverage: number,
 	) => void;
-}> = ({ id, poster, releaseDate, title, voteAverage, onAddFavorite }): ReactElement => {
+}> = ({ id, poster, releaseDate, title, voteAverage, onAddFavorite, classes }): ReactElement => {
 	return (
 		<div className={styles.container}>
 			<Link to={`/movies/${id}`}>
@@ -34,7 +35,7 @@ const CardView: React.FC<{
 					onAddFavorite(id, poster, releaseDate, title, voteAverage);
 				}}
 				title="Add to favorite"
-				className={styles["card-button"]}
+				className={[styles["card-button"], classes].join(" ")}
 				type="button"
 			>
 				<img src={heartIcon} alt="Heart" />

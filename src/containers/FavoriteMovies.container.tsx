@@ -1,39 +1,42 @@
-import { ReactElement, useEffect, useState } from "react";
-import { supabase } from "../helpers/supabaseClient";
-import { Movie } from "../helpers/types";
+import { ReactElement, useContext } from "react";
 import FavoriteMoviesView from "../views/FavoriteMovies.view";
+import { FavoriteMoviesContext } from "../context/favorite-movies-context";
 
 const FavoriteMoviesContainer = (): ReactElement => {
-	const [favoriteMovies, setFavoriteMovies] = useState<Array<Partial<Movie>>>([]);
+	const { movies } = useContext(FavoriteMoviesContext);
 
-	const getFavoriteMovies = async (): Promise<void> => {
-		try {
-			const userId = (await supabase.auth.getUser())?.data.user?.id;
+	// const getFavoriteMovies = async (): Promise<void> => {
+	// 	setStatus("loading");
 
-			const { data, error, statusText } = await supabase
-				.from("movie")
-				.select()
-				.eq("userId", userId);
+	// 	try {
+	// 		const userId = (await supabase.auth.getUser())?.data.user?.id;
 
-			if (error !== null) {
-				throw new Error(statusText);
-			}
+	// 		const { data, error, statusText } = await supabase
+	// 			.from("movie")
+	// 			.select()
+	// 			.eq("userId", userId);
 
-			setFavoriteMovies(data);
-		} catch (error) {
-			if (error instanceof Error) {
-				alert(error.message);
-			}
-		}
-	};
+	// 		if (error !== null) {
+	// 			setStatus("error");
+	// 			throw new Error(statusText);
+	// 		}
 
-	useEffect(() => {
-		void (async () => {
-			await getFavoriteMovies();
-		})();
-	}, []);
+	// 		setStatus("ok");
+	// 		setFavoriteMovies(data);
+	// 	} catch (error) {
+	// 		if (error instanceof Error) {
+	// 			alert(error.message);
+	// 		}
+	// 	}
+	// };
 
-	return <FavoriteMoviesView movies={favoriteMovies} />;
+	// useEffect(() => {
+	// 	void (async () => {
+	// 		await getFavoriteMovies();
+	// 	})();
+	// }, []);
+
+	return <FavoriteMoviesView movies={movies} />;
 };
 
 export default FavoriteMoviesContainer;
