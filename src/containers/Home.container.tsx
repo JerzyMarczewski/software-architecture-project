@@ -36,8 +36,6 @@ const HomeContainer = (): ReactElement => {
 				}&language=en-US&page=${page}`,
 			);
 
-			console.log(response.data.results);
-
 			if (response.status !== 200) {
 				setStatus("error");
 				throw new Error(response.statusText);
