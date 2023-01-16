@@ -22,6 +22,10 @@ const HomeContainer = (): ReactElement => {
 
 	const getUpcomingMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
+
+		if (VITE_API_KEY === null) {
+			return;
+		}
 		setStatus("loading");
 
 		try {
@@ -38,6 +42,7 @@ const HomeContainer = (): ReactElement => {
 				throw new Error(response.statusText);
 			}
 
+			window.scrollTo(0, 0);
 			if (type === "upcoming") {
 				setUpcomingMovies(response.data.results);
 			}
@@ -59,7 +64,17 @@ const HomeContainer = (): ReactElement => {
 	const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 		setStatus("loading");
+		setPage(1);
+
+		await getSearchMovies();
+	};
+
+	const getSearchMovies = async (): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
+
+		if (VITE_API_KEY === null) {
+			return;
+		}
 
 		if (enteredText.length === 0) {
 			setSearchMovies([]);
@@ -70,7 +85,7 @@ const HomeContainer = (): ReactElement => {
 			const response = await axios.get(
 				`https://api.themoviedb.org/3/search/movie?api_key=${
 					VITE_API_KEY as string
-				}&language=en-US&page=1&query=${enteredText}`,
+				}&language=en-US&page=${page}&query=${enteredText}`,
 			);
 
 			if (response.status !== 200) {
@@ -78,6 +93,7 @@ const HomeContainer = (): ReactElement => {
 				throw new Error("Something went wrong!");
 			}
 
+			window.scrollTo(0, 0);
 			setSection("search");
 			setSearchMovies(response.data.results);
 			setStatus("ok");
@@ -115,6 +131,11 @@ const HomeContainer = (): ReactElement => {
 			await getUpcomingMovies("upcoming");
 			await getUpcomingMovies("top_rated");
 		})();
+		if (section === "search") {
+			void (async () => {
+				await getSearchMovies();
+			})();
+		}
 	}, [page]);
 
 	useEffect(() => {
