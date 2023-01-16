@@ -3,6 +3,7 @@ import HomeView from "../views/Home.view";
 import axios from "axios";
 import { Movie, Section, Status, heroImage } from "../helpers/types";
 import styles from "../views/home.module.css";
+import BeatLoader from "react-spinners/BeatLoader";
 import CardsContainer from "./Cards.container";
 
 const HomeContainer = (): ReactElement => {
@@ -210,7 +211,16 @@ const HomeContainer = (): ReactElement => {
 
 	return (
 		<>
-			{status === "loading" && <p className={styles.message}>Loading...</p>}
+			{status === "loading" && (
+				<p className={styles.message}>
+					<BeatLoader
+						color="#fff"
+						loading={status === "loading"}
+						size={65}
+						aria-label="Loading Spinner"
+					/>
+				</p>
+			)}
 			{status === "error" && <p className={styles.error}>Something went wrong</p>}
 			{status === "ok" && (
 				<HomeView
