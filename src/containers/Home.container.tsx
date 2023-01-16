@@ -18,6 +18,7 @@ const HomeContainer = (): ReactElement => {
 		title: "",
 		backdropPath: "",
 	});
+	const [page, setPage] = useState(1);
 
 	const getUpcomingMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
@@ -27,8 +28,10 @@ const HomeContainer = (): ReactElement => {
 			const response = await axios.get(
 				`https://api.themoviedb.org/3/movie/${type}?api_key=${
 					VITE_API_KEY as string
-				}&language=en-US&page=1`,
+				}&language=en-US&page=${page}`,
 			);
+
+			console.log(response.data.results);
 
 			if (response.status !== 200) {
 				setStatus("error");
@@ -91,6 +94,7 @@ const HomeContainer = (): ReactElement => {
 	};
 
 	const changeSectionHandler = (sectionName: Section): void => {
+		setPage(1);
 		setSection(sectionName);
 	};
 
@@ -111,7 +115,7 @@ const HomeContainer = (): ReactElement => {
 			await getUpcomingMovies("upcoming");
 			await getUpcomingMovies("top_rated");
 		})();
-	}, []);
+	}, [page]);
 
 	useEffect(() => {
 		onHeroImage();
@@ -168,6 +172,17 @@ const HomeContainer = (): ReactElement => {
 		}
 	};
 
+	const nextPageHandler = (): void => {
+		setPage((prevState) => prevState + 1);
+	};
+
+	const previousPageHandler = (): void => {
+		if (page === 1) {
+			return;
+		}
+		setPage((prevState) => prevState - 1);
+	};
+
 	useEffect(() => {
 		onChangeSelectedSection();
 	}, [section, status]);
@@ -189,6 +204,9 @@ const HomeContainer = (): ReactElement => {
 					onChangeSection={changeSectionHandler}
 					section={section}
 					status={status}
+					onNextPage={nextPageHandler}
+					onPreviousPage={previousPageHandler}
+					page={page}
 				/>
 			)}
 		</>

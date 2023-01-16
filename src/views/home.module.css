@@ -103,6 +103,10 @@
 	padding: 0 1rem;
 }
 
+.button-container:last-child {
+	margin-top: 2rem;
+}
+
 .button-container button {
 	border-radius: var(--rounded);
 	padding: 0.5rem 1.5rem;
