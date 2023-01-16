@@ -12,6 +12,7 @@ import PersonCardView from "../views/PersonCard.view";
 import CardView from "../views/Card.view";
 import questionImage from "../assets/question-solid.svg";
 import { addToFavoritesHandler } from "../utils/utils";
+import { Link } from "react-router-dom";
 
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
@@ -84,14 +85,31 @@ const MovieContainer = (): ReactElement => {
 
 	const director: string = credits?.crew.find((person) => person.job === "Director")?.name ?? "N/A";
 
-	const writer = (): string => {
-		const result = credits?.crew.filter(
-			(person) =>
-				person.department === "Writing" && (person.job === "Writer" || person.job === "Story"),
-		);
+	const writer = (): JSX.Element => {
+		const usedIds: number[] = [];
+		const result = credits?.crew.filter((person) => {
+			const filtered =
+				person.department === "Writing" &&
+				(person.job === "Writer" || person.job === "Story" || person.job === "Screenplay");
 
-		if (result === undefined || result?.length === 0) return "N/A";
-		else return result.map((person) => person.name).join(", ") ?? "N/A";
+			if (usedIds.includes(person.id)) return false;
+
+			usedIds.push(person.id);
+			return filtered;
+		});
+
+		if (result === undefined || result?.length === 0)
+			return <div className={styles.writer}>N/A</div>;
+		else
+			return (
+				<div className={styles.writer}>
+					{result.map((person) => (
+						<Link key={person.id} to={`/people/${person.id}`}>
+							{person.name},
+						</Link>
+					))}
+				</div>
+			);
 	};
 	// credits?.crew
 	// 	.filter((person) => person.department === "Writing" && person.job === "Writer")
