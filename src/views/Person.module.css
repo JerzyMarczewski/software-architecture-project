@@ -166,3 +166,11 @@ a:link,a:visited,a:hover,a:active  {
     font-size: 1.75rem;
   }
 }
+@media only screen and (min-width: 1440px) {
+  .header,
+  .biography,
+  .credits  {
+    width: 1200px;
+  }
+
+}
