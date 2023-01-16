@@ -32,14 +32,6 @@ const HomeView: React.FC<{
 	heroImage,
 	page,
 }): ReactElement => {
-	if (status === "loading") {
-		return <div className={styles.message}>Loading...</div>;
-	}
-
-	if (status === "error") {
-		return <div className={styles.error}>Something went wrong! Try later!</div>;
-	}
-
 	return (
 		<div className={styles.container}>
 			<header className={styles.header}>
