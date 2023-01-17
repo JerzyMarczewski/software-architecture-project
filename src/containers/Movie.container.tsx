@@ -83,7 +83,19 @@ const MovieContainer = (): ReactElement => {
 			<img src={`https://image.tmdb.org/t/p/w500${movie.poster_path as string}`} alt="" />
 		) : null;
 
-	const director: string = credits?.crew.find((person) => person.job === "Director")?.name ?? "N/A";
+	const director = (): JSX.Element => {
+		const result = credits?.crew.find((person) => person.job === "Director");
+
+		if (result === undefined) return <div>N/A</div>;
+
+		return (
+			<div className={styles.writer}>
+				<Link key={result.id} to={`/people/${result.id}`}>
+					{result.name},
+				</Link>
+			</div>
+		);
+	};
 
 	const writer = (): JSX.Element => {
 		const usedIds: number[] = [];
@@ -146,7 +158,7 @@ const MovieContainer = (): ReactElement => {
 				<h1>{movie?.title}</h1>
 				<div className={styles.infoContainer}>
 					<div>Director</div>
-					<div>{director}</div>
+					<div>{director()}</div>
 					<div>Writer</div>
 					<div>{writer()}</div>
 					<div>Genre</div>
