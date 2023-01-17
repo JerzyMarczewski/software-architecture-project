@@ -21,7 +21,7 @@ const HomeContainer = (): ReactElement => {
 	});
 	const [page, setPage] = useState(1);
 
-	const getUpcomingMovies = async (type: Section): Promise<void> => {
+	const getMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
 
 		if (VITE_API_KEY === null) {
@@ -92,7 +92,6 @@ const HomeContainer = (): ReactElement => {
 				throw new Error("Something went wrong!");
 			}
 
-			window.scrollTo(0, 0);
 			setSection("search");
 			setSearchMovies(response.data.results);
 			setStatus("ok");
@@ -126,9 +125,9 @@ const HomeContainer = (): ReactElement => {
 
 	useEffect(() => {
 		void (async () => {
-			await getUpcomingMovies("popular");
-			await getUpcomingMovies("upcoming");
-			await getUpcomingMovies("top_rated");
+			await getMovies("popular");
+			await getMovies("upcoming");
+			await getMovies("top_rated");
 		})();
 		if (section === "search") {
 			void (async () => {
