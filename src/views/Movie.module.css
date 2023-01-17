@@ -64,6 +64,11 @@
   justify-self: center;
 }
 
+.cast .director > a,
+.cast .writer > a {
+  cursor: pointer;
+}
+
 .showMore {
   margin: 20px 0;
   text-align: center;
