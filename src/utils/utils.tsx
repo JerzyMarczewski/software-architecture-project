@@ -11,6 +11,10 @@ export const addToFavoritesHandler = async (
 		const userId = (await supabase.auth.getUser())?.data.user?.id;
 		const shortenPosterPath = poster.split("w300").at(-1);
 
+		if (userId === undefined) {
+			return;
+		}
+
 		const { error } = await supabase.from("movie").insert({
 			id,
 			poster_path: shortenPosterPath,

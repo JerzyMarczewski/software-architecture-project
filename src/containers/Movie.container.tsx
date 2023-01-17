@@ -216,6 +216,7 @@ const MovieContainer = (): ReactElement => {
 							voteAverage={movie.vote_average ?? 0}
 							// eslint-disable-next-line @typescript-eslint/no-misused-promises
 							onAddFavorite={addToFavoritesHandler}
+							classes=""
 						/>
 					);
 				})}

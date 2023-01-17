@@ -13,6 +13,12 @@
 	box-shadow: 0 0 10px var(--grey-color);
 }
 
+.container div {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
 .logo {
 	text-decoration: none;
 	color: var(--font-color);

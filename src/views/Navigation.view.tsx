@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import styles from "./navigation.module.css";
 import { Session } from "@supabase/supabase-js";
 import { Link } from "react-router-dom";
+import heartIcon from "../assets/heart-solid.svg";
 
 const NavigationView: React.FC<{ session: Session | null | undefined; onLogout: () => void }> = ({
 	session,
@@ -19,9 +20,14 @@ const NavigationView: React.FC<{ session: Session | null | undefined; onLogout: 
 					</Link>
 				)}
 				{session !== null && (
-					<button type="button" className={styles["logout-button"]} onClick={onLogout}>
-						Logout
-					</button>
+					<>
+						<Link to="/favorite">
+							<img src={heartIcon} alt="Heart icon" />
+						</Link>
+						<button type="button" className={styles["logout-button"]} onClick={onLogout}>
+							Logout
+						</button>
+					</>
 				)}
 			</div>
 		</nav>

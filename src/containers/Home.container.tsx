@@ -3,6 +3,7 @@ import HomeView from "../views/Home.view";
 import axios from "axios";
 import { Movie, Section, Status, heroImage } from "../helpers/types";
 import styles from "../views/home.module.css";
+import BeatLoader from "react-spinners/BeatLoader";
 import CardsContainer from "./Cards.container";
 
 const HomeContainer = (): ReactElement => {
@@ -18,16 +19,21 @@ const HomeContainer = (): ReactElement => {
 		title: "",
 		backdropPath: "",
 	});
+	const [page, setPage] = useState(1);
 
-	const getUpcomingMovies = async (type: Section): Promise<void> => {
+	const getMovies = async (type: Section): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
+
+		if (VITE_API_KEY === null) {
+			return;
+		}
 		setStatus("loading");
 
 		try {
 			const response = await axios.get(
 				`https://api.themoviedb.org/3/movie/${type}?api_key=${
 					VITE_API_KEY as string
-				}&language=en-US&page=1`,
+				}&language=en-US&page=${page}`,
 			);
 
 			if (response.status !== 200) {
@@ -35,6 +41,7 @@ const HomeContainer = (): ReactElement => {
 				throw new Error(response.statusText);
 			}
 
+			window.scrollTo(0, 0);
 			if (type === "upcoming") {
 				setUpcomingMovies(response.data.results);
 			}
@@ -56,7 +63,17 @@ const HomeContainer = (): ReactElement => {
 	const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
 		setStatus("loading");
+		setPage(1);
+
+		await getSearchMovies();
+	};
+
+	const getSearchMovies = async (): Promise<void> => {
 		const { VITE_API_KEY } = import.meta.env;
+
+		if (VITE_API_KEY === null) {
+			return;
+		}
 
 		if (enteredText.length === 0) {
 			setSearchMovies([]);
@@ -67,7 +84,7 @@ const HomeContainer = (): ReactElement => {
 			const response = await axios.get(
 				`https://api.themoviedb.org/3/search/movie?api_key=${
 					VITE_API_KEY as string
-				}&language=en-US&page=1&query=${enteredText}`,
+				}&language=en-US&page=${page}&query=${enteredText}`,
 			);
 
 			if (response.status !== 200) {
@@ -91,6 +108,7 @@ const HomeContainer = (): ReactElement => {
 	};
 
 	const changeSectionHandler = (sectionName: Section): void => {
+		setPage(1);
 		setSection(sectionName);
 	};
 
@@ -107,11 +125,16 @@ const HomeContainer = (): ReactElement => {
 
 	useEffect(() => {
 		void (async () => {
-			await getUpcomingMovies("popular");
-			await getUpcomingMovies("upcoming");
-			await getUpcomingMovies("top_rated");
+			await getMovies("popular");
+			await getMovies("upcoming");
+			await getMovies("top_rated");
 		})();
-	}, []);
+		if (section === "search") {
+			void (async () => {
+				await getSearchMovies();
+			})();
+		}
+	}, [page]);
 
 	useEffect(() => {
 		onHeroImage();
@@ -168,13 +191,33 @@ const HomeContainer = (): ReactElement => {
 		}
 	};
 
+	const nextPageHandler = (): void => {
+		setPage((prevState) => prevState + 1);
+	};
+
+	const previousPageHandler = (): void => {
+		if (page === 1) {
+			return;
+		}
+		setPage((prevState) => prevState - 1);
+	};
+
 	useEffect(() => {
 		onChangeSelectedSection();
 	}, [section, status]);
 
 	return (
 		<>
-			{status === "loading" && <p className={styles.message}>Loading...</p>}
+			{status === "loading" && (
+				<p className={styles.message}>
+					<BeatLoader
+						color="#fff"
+						loading={status === "loading"}
+						size={65}
+						aria-label="Loading Spinner"
+					/>
+				</p>
+			)}
 			{status === "error" && <p className={styles.error}>Something went wrong</p>}
 			{status === "ok" && (
 				<HomeView
@@ -189,6 +232,9 @@ const HomeContainer = (): ReactElement => {
 					onChangeSection={changeSectionHandler}
 					section={section}
 					status={status}
+					onNextPage={nextPageHandler}
+					onPreviousPage={previousPageHandler}
+					page={page}
 				/>
 			)}
 		</>

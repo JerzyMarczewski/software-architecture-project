@@ -12,28 +12,26 @@ export const MOVIE_DB_IMAGE_URL = {
 
 const HomeView: React.FC<{
 	heroImage: heroImage;
+	page: number;
 	onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 	onEnteredText: (event: ChangeEvent<HTMLInputElement>) => void;
 	onChangeSection: (section: Section) => void;
 	section: Section;
 	status: Status;
 	selectedSection: JSX.Element | undefined;
+	onNextPage: () => void;
+	onPreviousPage: () => void;
 }> = ({
 	status,
 	onSubmit,
 	onEnteredText,
 	onChangeSection,
+	onNextPage,
+	onPreviousPage,
 	selectedSection,
 	heroImage,
+	page,
 }): ReactElement => {
-	if (status === "loading") {
-		return <div className={styles.message}>Loading...</div>;
-	}
-
-	if (status === "error") {
-		return <div className={styles.error}>Something went wrong! Try later!</div>;
-	}
-
 	return (
 		<div className={styles.container}>
 			<header className={styles.header}>
@@ -87,6 +85,11 @@ const HomeView: React.FC<{
 				</button>
 			</div>
 			<div className={styles.main}>{selectedSection}</div>
+			<div className={styles["button-container"]}>
+				<button onClick={onPreviousPage}>Previous page</button>
+				<span>{page}</span>
+				<button onClick={onNextPage}>Next page</button>
+			</div>
 		</div>
 	);
 };
