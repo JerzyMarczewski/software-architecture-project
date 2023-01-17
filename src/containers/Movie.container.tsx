@@ -7,12 +7,8 @@ import styles from "../views/Movie.module.css";
 
 import { Movie, MovieCredits } from "../helpers/types";
 import PersonCardView from "../views/PersonCard.view";
-// import CardView from "../views/Card.view";
-// import CardsContainer from "./Cards.container";
-import CardView from "../views/Card.view";
-import questionImage from "../assets/question-solid.svg";
-import { addToFavoritesHandler } from "../utils/utils";
 import { Link } from "react-router-dom";
+import CardsContainer from "./Cards.container";
 
 const MovieContainer = (): ReactElement => {
 	const { movieId } = useParams();
@@ -123,10 +119,6 @@ const MovieContainer = (): ReactElement => {
 				</div>
 			);
 	};
-	// credits?.crew
-	// 	.filter((person) => person.department === "Writing" && person.job === "Writer")
-	// 	.map((person) => person.name)
-	// 	.join(", ") ?? "unknown";
 
 	const genres: string =
 		movie !== undefined
@@ -198,7 +190,11 @@ const MovieContainer = (): ReactElement => {
 		<div className={styles.suggestions}>
 			<h3>You may also like:</h3>
 			<div className={styles.grid}>
-				{similar?.slice(0, showFullSuggestions ? -2 : 4).map((movie) => {
+				{similar !== undefined ? (
+					<CardsContainer movies={similar?.slice(0, showFullSuggestions ? -2 : 4)} />
+				) : null}
+
+				{/* {similar?.slice(0, showFullSuggestions ? -2 : 4).map((movie) => {
 					if (movie === undefined || movie.id === undefined) return null;
 
 					let poster;
@@ -214,12 +210,11 @@ const MovieContainer = (): ReactElement => {
 							title={movie.title ?? "N/A"}
 							releaseDate={movie.release_date ?? "N/A"}
 							voteAverage={movie.vote_average ?? 0}
-							// eslint-disable-next-line @typescript-eslint/no-misused-promises
 							onAddFavorite={addToFavoritesHandler}
 							classes=""
 						/>
 					);
-				})}
+				})} */}
 			</div>
 			<p
 				className={styles.showMore} // change
