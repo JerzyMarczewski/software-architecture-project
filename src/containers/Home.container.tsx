@@ -62,7 +62,6 @@ const HomeContainer = (): ReactElement => {
 
 	const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
 		event.preventDefault();
-		setStatus("loading");
 		setPage(1);
 
 		await getSearchMovies();
@@ -80,6 +79,8 @@ const HomeContainer = (): ReactElement => {
 			return;
 		}
 
+		setStatus("loading");
+
 		try {
 			const response = await axios.get(
 				`https://api.themoviedb.org/3/search/movie?api_key=${
@@ -94,6 +95,7 @@ const HomeContainer = (): ReactElement => {
 
 			setSection("search");
 			setSearchMovies(response.data.results);
+			setEnteredText("");
 			setStatus("ok");
 		} catch (error) {
 			setStatus("error");
