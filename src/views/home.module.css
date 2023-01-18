@@ -131,6 +131,10 @@
 	grid-column: 3 / 4;
 }
 
+.prev-button {
+	grid-column: 1 / 2;
+}
+
 .error {
 	display: flex;
 	align-items: center;

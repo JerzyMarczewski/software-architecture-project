@@ -95,7 +95,6 @@ const HomeContainer = (): ReactElement => {
 
 			setSection("search");
 			setSearchMovies(response.data.results);
-			setEnteredText("");
 			setStatus("ok");
 		} catch (error) {
 			setStatus("error");
@@ -123,6 +122,7 @@ const HomeContainer = (): ReactElement => {
 	const changeSectionHandler = (sectionName: Section): void => {
 		setPage(1);
 		setSection(sectionName);
+		setEnteredText("");
 	};
 
 	const onHeroImage = (): void => {
@@ -153,6 +153,7 @@ const HomeContainer = (): ReactElement => {
 		onHeroImage();
 	}, [popularMovies]);
 
+	console.log("object");
 	const upcomingMoviesSection = (
 		<section>
 			<h2 className={styles["section-header"]}>Upcoming movies</h2>
@@ -160,7 +161,11 @@ const HomeContainer = (): ReactElement => {
 				<CardsContainer movies={upcomingMovies} />
 			</div>
 			<div className={styles["button-container"]}>
-				{page !== 1 ?? <button onClick={previousPageHandler}>Prev page</button>}
+				{page !== 1 && (
+					<button className={styles["prev-button"]} onClick={previousPageHandler}>
+						Prev page
+					</button>
+				)}
 				<span className={styles["page-number"]}>{page}</span>
 				<button className={styles["next-button"]} onClick={nextPageHandler}>
 					Next page
@@ -181,8 +186,10 @@ const HomeContainer = (): ReactElement => {
 			</div>
 			{searchMovies.length !== 0 && page !== 1 && (
 				<div className={styles["button-container"]}>
-					<button onClick={previousPageHandler}>Prev page</button>
-					<span>{page}</span>
+					<button className={styles["prev-button"]} onClick={previousPageHandler}>
+						Prev page
+					</button>
+					<span className={styles["page-number"]}>{page}</span>
 					<button onClick={nextPageHandler}>Next page</button>
 				</div>
 			)}
@@ -190,7 +197,9 @@ const HomeContainer = (): ReactElement => {
 				<div className={styles["button-container"]}>
 					<div></div>
 					<span>{page}</span>
-					<button onClick={nextPageHandler}>Next page</button>
+					<button className={styles["next-button"]} onClick={nextPageHandler}>
+						Next page
+					</button>
 				</div>
 			)}
 		</section>
@@ -203,9 +212,15 @@ const HomeContainer = (): ReactElement => {
 				<CardsContainer movies={popularMovies} />
 			</div>
 			<div className={styles["button-container"]}>
-				{page !== 1 ?? <button onClick={previousPageHandler}>Prev page</button>}
-				<span>{page}</span>
-				<button onClick={nextPageHandler}>Next page</button>
+				{page !== 1 && (
+					<button className={styles["prev-button"]} onClick={previousPageHandler}>
+						Prev page
+					</button>
+				)}
+				<span className={styles["page-number"]}>{page}</span>
+				<button className={styles["next-button"]} onClick={nextPageHandler}>
+					Next page
+				</button>
 			</div>
 		</section>
 	);
@@ -217,9 +232,15 @@ const HomeContainer = (): ReactElement => {
 				<CardsContainer movies={topRatedMovies} />
 			</div>
 			<div className={styles["button-container"]}>
-				{page !== 1 ?? <button onClick={previousPageHandler}>Prev page</button>}
-				<span>{page}</span>
-				<button onClick={nextPageHandler}>Next page</button>
+				{page !== 1 && (
+					<button className={styles["prev-button"]} onClick={previousPageHandler}>
+						Prev page
+					</button>
+				)}
+				<span className={styles["page-number"]}>{page}</span>
+				<button className={styles["next-button"]} onClick={nextPageHandler}>
+					Next page
+				</button>
 			</div>
 		</section>
 	);
