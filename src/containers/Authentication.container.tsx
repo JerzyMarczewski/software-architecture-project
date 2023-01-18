@@ -1,7 +1,6 @@
 import { FormEvent, ReactElement, useContext, useState } from "react";
 import LoginView from "../views/Login.view";
 import { supabase } from "../helpers/supabaseClient";
-import { AuthResponse } from "@supabase/supabase-js";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../context/auth-context";
 import RegisterView from "../views/Register.view";
@@ -21,14 +20,15 @@ const AuthenticationContainer = (): ReactElement => {
 		event.preventDefault();
 		const emailRegExp = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
-		let response: AuthResponse;
-
-		if (enteredEmail.length === 0 || enteredPassword.length === 0) {
+		if (!emailRegExp.test(enteredEmail)) {
+			setErrorMessage("Invalid email address");
 			return;
 		}
 
-		if (!emailRegExp.test(enteredEmail)) {
-			setErrorMessage("Invalid email address");
+		if (enteredPassword.length < 8) {
+			setEnteredPassword("");
+			setRepeatedPassword("");
+			setErrorMessage("Password is too short. At least 8 characters!");
 			return;
 		}
 
@@ -39,41 +39,62 @@ const AuthenticationContainer = (): ReactElement => {
 			return;
 		}
 
-		if (!isRegister && enteredPassword.length < 8) {
-			setEnteredPassword("");
-			setRepeatedPassword("");
-			setErrorMessage("Password is too short. At least 8 characters!");
+		if (enteredEmail.length === 0 || enteredPassword.length === 0) {
 			return;
 		}
 
+		if (isRegister) {
+			await onLogin();
+		} else {
+			await onRegister();
+		}
+	};
+
+	const onLogin = async (): Promise<void> => {
 		try {
-			if (isRegister) {
-				response = await supabase.auth.signInWithPassword({
-					email: enteredEmail,
-					password: enteredPassword,
-				});
-			} else {
-				response = await supabase.auth.signUp({
-					email: enteredEmail,
-					password: enteredPassword,
-				});
-			}
+			const { error } = await supabase.auth.signInWithPassword({
+				email: enteredEmail,
+				password: enteredPassword,
+			});
 
 			setEnteredEmail("");
 			setEnteredPassword("");
 			setRepeatedPassword("");
 			setErrorMessage("");
-			if (response.error !== null) {
-				if (isRegister) {
-					throw new Error("Incorrect email or password!");
-				} else {
-					throw new Error("Something went wrong!");
-				}
+			if (error !== null) {
+				throw new Error("Incorrect email or password!");
 			}
 
 			refetch();
 			getSession();
 			navigate("/");
+		} catch (error) {
+			if (error instanceof Error) {
+				setErrorMessage(error.message);
+			}
+		}
+	};
+
+	const onRegister = async (): Promise<void> => {
+		try {
+			const { error } = await supabase.auth.signUp({
+				email: enteredEmail,
+				password: enteredPassword,
+			});
+
+			if (error !== null) {
+				throw new Error("Something went wrong!");
+			}
+
+			confirm(
+				"Check your email and wait up to 5 minutes to verify email and then login after confirmation your email",
+			);
+
+			setIsRegister(true);
+			setErrorMessage("");
+			setEnteredEmail("");
+			setEnteredPassword("");
+			setRepeatedPassword("");
 		} catch (error) {
 			if (error instanceof Error) {
 				setErrorMessage(error.message);
