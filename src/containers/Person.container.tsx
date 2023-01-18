@@ -15,14 +15,12 @@ const MovieContainer = (): ReactElement => {
 	const [person, setPerson] = useState<Person>();
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const [personMovieCredits, setPersonMovieCredits] = useState<PersonMovieCredits>();
-	const [showMoreBiography, setShowMoreBiography] = useState<boolean>(false);
 	const [showAllCredits, setShowAllCredits] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (personId === undefined) return;
 
 		setIsLoaded(false);
-		setShowMoreBiography(false);
 		setShowAllCredits(false);
 
 		void (async () => {
@@ -74,7 +72,7 @@ const MovieContainer = (): ReactElement => {
 					<h3>Birthday</h3>
 					<p>{person?.birthday ?? "N/A"}</p>
 					<h3>Deathday</h3>
-					<p>{person?.deathday ?? "N/A"}</p>
+					<p>{person?.deathday == null ? "-" : "N/A"}</p>
 					<h3>Place of birth</h3>
 					<p>{person?.place_of_birth ?? "N/A"}</p>
 					<h3>Department</h3>
@@ -87,16 +85,7 @@ const MovieContainer = (): ReactElement => {
 	const biography = (
 		<div className={styles.biography}>
 			<h1>Biography:</h1>
-			<p>
-				{person?.biography.slice(0, showMoreBiography ? -2 : 200)}
-				<span
-					onClick={() => {
-						setShowMoreBiography(!showMoreBiography);
-					}}
-				>
-					{showMoreBiography ? null : "...more"}
-				</span>
-			</p>
+			<p>{person?.biography}</p>
 		</div>
 	);
 
