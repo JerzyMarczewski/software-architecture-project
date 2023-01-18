@@ -103,6 +103,17 @@ const HomeContainer = (): ReactElement => {
 		}
 	};
 
+	const nextPageHandler = (): void => {
+		setPage((prevState) => prevState + 1);
+	};
+
+	const previousPageHandler = (): void => {
+		if (page === 1) {
+			return;
+		}
+		setPage((prevState) => prevState - 1);
+	};
+
 	const onEnteredText = (event: ChangeEvent<HTMLInputElement>): void => {
 		setEnteredText((event.target as HTMLInputElement).value);
 	};
@@ -146,6 +157,13 @@ const HomeContainer = (): ReactElement => {
 			<div className={styles.grid}>
 				<CardsContainer movies={upcomingMovies} />
 			</div>
+			<div className={styles["button-container"]}>
+				{page !== 1 ?? <button onClick={previousPageHandler}>Prev page</button>}
+				<span className={styles["page-number"]}>{page}</span>
+				<button className={styles["next-button"]} onClick={nextPageHandler}>
+					Next page
+				</button>
+			</div>
 		</section>
 	);
 
@@ -153,8 +171,26 @@ const HomeContainer = (): ReactElement => {
 		<section>
 			<h2 className={styles["section-header"]}>Search movies</h2>
 			<div className={styles.grid}>
-				<CardsContainer movies={searchMovies} />
+				{searchMovies.length === 0 ? (
+					<p className={styles["search-message"]}>Movie not found!</p>
+				) : (
+					<CardsContainer movies={searchMovies} />
+				)}
 			</div>
+			{searchMovies.length !== 0 && page !== 1 && (
+				<div className={styles["button-container"]}>
+					<button onClick={previousPageHandler}>Prev page</button>
+					<span>{page}</span>
+					<button onClick={nextPageHandler}>Next page</button>
+				</div>
+			)}
+			{searchMovies.length !== 0 && page === 1 && (
+				<div className={styles["button-container"]}>
+					<div></div>
+					<span>{page}</span>
+					<button onClick={nextPageHandler}>Next page</button>
+				</div>
+			)}
 		</section>
 	);
 
@@ -164,6 +200,11 @@ const HomeContainer = (): ReactElement => {
 			<div className={styles.grid}>
 				<CardsContainer movies={popularMovies} />
 			</div>
+			<div className={styles["button-container"]}>
+				{page !== 1 ?? <button onClick={previousPageHandler}>Prev page</button>}
+				<span>{page}</span>
+				<button onClick={nextPageHandler}>Next page</button>
+			</div>
 		</section>
 	);
 
@@ -172,6 +213,11 @@ const HomeContainer = (): ReactElement => {
 			<h2 className={styles["section-header"]}>Top rated movies</h2>
 			<div className={styles.grid}>
 				<CardsContainer movies={topRatedMovies} />
+			</div>
+			<div className={styles["button-container"]}>
+				{page !== 1 ?? <button onClick={previousPageHandler}>Prev page</button>}
+				<span>{page}</span>
+				<button onClick={nextPageHandler}>Next page</button>
 			</div>
 		</section>
 	);
@@ -189,17 +235,6 @@ const HomeContainer = (): ReactElement => {
 		if (section === "search") {
 			setSelectedSection(searchMoviesSection);
 		}
-	};
-
-	const nextPageHandler = (): void => {
-		setPage((prevState) => prevState + 1);
-	};
-
-	const previousPageHandler = (): void => {
-		if (page === 1) {
-			return;
-		}
-		setPage((prevState) => prevState - 1);
 	};
 
 	useEffect(() => {

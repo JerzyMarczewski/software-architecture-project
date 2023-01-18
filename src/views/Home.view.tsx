@@ -85,11 +85,6 @@ const HomeView: React.FC<{
 				</button>
 			</div>
 			<div className={styles.main}>{selectedSection}</div>
-			<div className={styles["button-container"]}>
-				<button onClick={onPreviousPage}>Previous page</button>
-				<span>{page}</span>
-				<button onClick={onNextPage}>Next page</button>
-			</div>
 		</div>
 	);
 };
