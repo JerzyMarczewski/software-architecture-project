@@ -36,7 +36,7 @@ const HomeView: React.FC<{
 		<div className={styles.container}>
 			<header className={styles.header}>
 				<div className={styles["hero-container"]}>
-					<h1>Let&apos;s find your movie or tv series</h1>
+					<h1>Let&apos;s find your movie</h1>
 					<h2>{heroImage.title}</h2>
 				</div>
 				<img
