@@ -165,6 +165,15 @@ const MovieContainer = (): ReactElement => {
 		</div>
 	);
 
+	const showMoreCastButton =
+		credits !== undefined
+			? credits?.cast?.length > 6
+				? showFullCast
+					? "show less"
+					: "show more"
+				: null
+			: null;
+
 	const cast = (
 		<div className={styles.castContainer}>
 			<h3>Cast:</h3>
@@ -181,7 +190,7 @@ const MovieContainer = (): ReactElement => {
 					setShowFullCast(!showFullCast);
 				}}
 			>
-				{showFullCast ? "show less" : "show more"}
+				{showMoreCastButton}
 			</p>
 		</div>
 	);
@@ -193,28 +202,6 @@ const MovieContainer = (): ReactElement => {
 				{similar !== undefined ? (
 					<CardsContainer movies={similar?.slice(0, showFullSuggestions ? -2 : 4)} />
 				) : null}
-
-				{/* {similar?.slice(0, showFullSuggestions ? -2 : 4).map((movie) => {
-					if (movie === undefined || movie.id === undefined) return null;
-
-					let poster;
-
-					if (movie.poster_path === null || movie.poster_path === undefined) poster = questionImage;
-					else poster = `https://image.tmdb.org/t/p/w200${movie.poster_path}`;
-
-					return (
-						<CardView
-							key={movie.id}
-							id={movie.id}
-							poster={poster}
-							title={movie.title ?? "N/A"}
-							releaseDate={movie.release_date ?? "N/A"}
-							voteAverage={movie.vote_average ?? 0}
-							onAddFavorite={addToFavoritesHandler}
-							classes=""
-						/>
-					);
-				})} */}
 			</div>
 			<p
 				className={styles.showMore} // change
