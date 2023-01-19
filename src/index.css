@@ -32,6 +32,10 @@ body {
 	overflow-x: hidden;
 }
 
+a:link {
+	color: var(--background-color);
+}
+
 .message {
 	height: 100vh;
 	display: flex;
