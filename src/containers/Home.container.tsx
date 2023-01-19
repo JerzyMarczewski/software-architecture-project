@@ -153,7 +153,6 @@ const HomeContainer = (): ReactElement => {
 		onHeroImage();
 	}, [popularMovies]);
 
-	console.log("object");
 	const upcomingMoviesSection = (
 		<section>
 			<h2 className={styles["section-header"]}>Upcoming movies</h2>
