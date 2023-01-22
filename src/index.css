@@ -32,7 +32,7 @@ body {
 	overflow-x: hidden;
 }
 
-a:link {
+a.login-button:link {
 	color: var(--background-color);
 }
 
